@@ -4,10 +4,28 @@
       <Header></Header>
     </NLayoutHeader>
     <NLayout has-sider :native-scrollbar="false">
-      <NLayoutSider bordered>
+      <NLayoutSider
+        collapse-mode="width"
+        :show-collapsed-content="false"
+        :collapsed-width="20"
+        show-trigger="arrow-circle"
+        @update:collapsed="hideSider = $event"
+        :bordered="!hideSider"
+        :class="hideSider ? 'transparent' : null"
+      >
         <NMenu value="all" :options="menuOptions" />
       </NLayoutSider>
       <NLayoutContent>
+        <div class="content">
+          <Colletion
+            v-for="collection in collections"
+            :key="collection.id"
+            :content="collection.content"
+            :author="collection.author"
+            :book="collection.book"
+            :tags="collection.tags"
+          />
+        </div>
       </NLayoutContent>
     </NLayout>
   </NLayout>
@@ -15,7 +33,8 @@
 
 <script setup lang="ts">
 import Header from "../components/Header.vue";
-import { reactive } from "vue";
+import Colletion from "../components/Collection.vue";
+import { reactive, ref } from "vue";
 import type { MenuOption } from "naive-ui";
 
 const menuOptions = reactive<MenuOption[]>([
@@ -36,6 +55,17 @@ const menuOptions = reactive<MenuOption[]>([
     ],
   },
 ]);
+
+const hideSider = ref(false);
+
+const collections = reactive<CollectionType[]>([]);
 </script>
 
-<style scoped></style>
+<style scoped>
+.transparent {
+  background-color: transparent;
+}
+.content {
+  padding: 20px;
+}
+</style>
