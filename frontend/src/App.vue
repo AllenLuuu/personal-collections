@@ -1,6 +1,8 @@
 <template>
   <n-config-provider :theme="colorMode.isDarkMode ? darkTheme : null">
-    <RouterView />
+    <n-message-provider>
+      <RouterView />
+    </n-message-provider>
   </n-config-provider>
 </template>
 
