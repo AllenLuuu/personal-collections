@@ -5,7 +5,7 @@
         <NIcon :size="40">
           <BookOutlined />
         </NIcon>
-        <h1 style="overflow: hidden; white-space: nowrap">游逛者 · 书摘</h1>
+        <h1 style="overflow: hidden; white-space: nowrap">游逛者 · 书摘 {{ suffix }}</h1>
       </div>
     </NGi>
     <NGi class="right">
@@ -28,6 +28,10 @@ import { useColorModeStore } from "../store/ColorMode";
 import { LightModeOutlined, DarkModeOutlined, BookOutlined } from "@vicons/material";
 
 const mode = useColorModeStore();
+
+defineProps<{
+  suffix?: string;
+}>();
 </script>
 
 <style scoped>
