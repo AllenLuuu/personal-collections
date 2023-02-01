@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <NCard hoverable size="huge">
+    <NCard hoverable>
       <div class="top-line">
         <NIcon size="40" class="left-quote" color="rgba(150, 150, 150, 0.5)">
           <FormatQuoteRound />
@@ -21,7 +21,8 @@
       </div>
       <div class="source" style="margin-top: 1.5rem">——{{ source }}</div>
       <template #footer v-if="tags">
-        <div class="tags">
+        <NDivider />
+        <NSpace :size="[0, 5]">
           <NTag
             v-for="(tag, index) in tags"
             :key="tag"
@@ -30,7 +31,7 @@
           >
             {{ tag }}
           </NTag>
-        </div>
+        </NSpace>
       </template>
     </NCard>
   </div>
