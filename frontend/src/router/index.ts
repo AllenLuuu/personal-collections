@@ -1,9 +1,10 @@
 import Index from "../pages/index.vue";
 import Login from "../pages/admin/login.vue";
 import Home from "../pages/admin/home.vue";
-import { createRouter, createWebHistory } from "vue-router";
+import Editor from "../pages/admin/editor.vue";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     path: "/",
     component: Index,
@@ -15,7 +16,20 @@ const routes = [
   {
     path: "/admin",
     component: Home,
-  }
+  },
+  {
+    path: "/admin/add",
+    component: Editor,
+    props: (route) => ({
+      author: route.query.author,
+      book: route.query.book,
+    }),
+  },
+  {
+    path: "/admin/edit/:cid",
+    component: Editor,
+    props: true,
+  },
 ];
 
 export const router = createRouter({

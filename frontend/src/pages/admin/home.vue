@@ -18,7 +18,7 @@
       </NLayoutSider>
       <NLayoutContent :native-scrollbar="false">
         <div class="content">
-          <AddButton :height="40" @click="handleAddCollection" />
+          <AddButton :height="40" @click="showModal = true" />
           <Colletion
             v-for="collection in collections"
             showAdminButtons
@@ -35,6 +35,43 @@
     </NLayout>
   </NLayout>
   <SearchButton />
+  <NModal v-model:show="showModal">
+    <NCard style="width: 600px">
+      <NSpace size="large" vertical>
+        <NRadioGroup v-model:value="addSchema" name="chooseAddSchema">
+          <NSpace>
+            <NRadio
+              v-for="schema in addSchemas"
+              :key="schema.value"
+              :value="schema.value"
+            >
+              {{ schema.label }}
+            </NRadio>
+          </NSpace>
+        </NRadioGroup>
+        <NForm :disabled="addSchema !== 'batch'">
+          <NFormItem label="作者">
+            <NInput
+              v-model:value="batchConfig.author"
+              placeholder="请输入作者名"
+            />
+          </NFormItem>
+          <NFormItem label="作品">
+            <NInput
+              v-model:value="batchConfig.book"
+              placeholder="请输入作品名"
+            />
+          </NFormItem>
+          <NSpace justify="end">
+            <NButton @click="showModal = false"> 取消 </NButton>
+            <NButton type="primary" @click="handleAddCollection">
+              确定
+            </NButton>
+          </NSpace>
+        </NForm>
+      </NSpace>
+    </NCard>
+  </NModal>
 </template>
 
 <script setup lang="ts">
@@ -44,9 +81,11 @@ import { reactive, ref } from "vue";
 import type { MenuOption } from "naive-ui";
 import { useDialog, useMessage } from "naive-ui";
 import AddButton from "../../components/AddButton.vue";
+import { useRouter } from "vue-router";
 
 const dialog = useDialog();
 const message = useMessage();
+const router = useRouter();
 
 const menuOptions = reactive<MenuOption[]>([
   {
@@ -83,16 +122,35 @@ const handleAddTopic = () => {
   console.log("add topic");
 };
 
+const showModal = ref(false);
+const addSchema = ref("one");
+const addSchemas = [
+  {
+    label: "添加一条",
+    value: "one",
+  },
+  {
+    label: "批量添加",
+    value: "batch",
+  },
+];
+const batchConfig = reactive({
+  author: "",
+  book: "",
+});
 const handleAddCollection = () => {
-  console.log("add collection");
+  if ((addSchema.value === "one")) {
+    router.push("/admin/add");
+  } else {
+    router.push(`/admin/add?author=${batchConfig.author}&book=${batchConfig.book}`);
+  }
 };
 
 const editCollection = (id: string) => {
-  console.log("edit collection", id);
+  router.push(`/admin/edit/${id}`);
 };
 
 const deleteCollection = (id: string) => {
-  console.log("delete collection", id);
   dialog.warning({
     title: "删除摘录",
     content: "确定要删除这条摘录吗？",
