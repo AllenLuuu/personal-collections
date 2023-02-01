@@ -1,9 +1,9 @@
 <template>
-  <NLayout>
-    <NLayoutHeader bordered>
+  <NLayout class="layout">
+    <NLayoutHeader bordered style="height: 80px">
       <Header></Header>
     </NLayoutHeader>
-    <NLayout has-sider :native-scrollbar="false">
+    <NLayout has-sider position="absolute" style="top: 80px;">
       <NLayoutSider
         collapse-mode="width"
         :show-collapsed-content="false"
@@ -15,7 +15,7 @@
       >
         <NMenu value="all" :options="menuOptions" />
       </NLayoutSider>
-      <NLayoutContent>
+      <NLayoutContent :native-scrollbar="false">
         <div class="content">
           <Colletion
             v-for="collection in collections"
@@ -67,5 +67,8 @@ const collections = reactive<CollectionType[]>([]);
 }
 .content {
   padding: 20px;
+}
+.layout {
+  height: 100vh;
 }
 </style>
