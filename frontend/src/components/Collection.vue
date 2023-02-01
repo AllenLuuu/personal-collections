@@ -19,8 +19,8 @@
           <FormatQuoteRound />
         </NIcon>
       </div>
-      <div class="source" style="margin-top: 1.5rem">——{{ source }}</div>
-      <template #footer v-if="tags">
+      <div class="source" style="margin-top: 1.5rem">—— {{ source }}</div>
+      <template #footer v-if="tags && tags.length">
         <NDivider />
         <NSpace :size="[0, 5]">
           <NTag
