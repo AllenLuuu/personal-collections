@@ -12,17 +12,19 @@
     </NGi>
     <NGi class="right">
       <NSpace size="large">
+        <NButton text :focusable="false" v-if="showHome" @click="router.push('/admin')">
+          <template #icon>
+            <NIcon size="20">
+              <HomeOutlined />
+            </NIcon>
+          </template>
+        </NButton>
         <NButton text :focusable="false" @click="mode.revertColorMode">
           <template #icon>
-            <NSpace>
-              <NIcon v-if="showHome" size="20">
-                <HomeOutlined />
-              </NIcon>
-              <NIcon size="20">
-                <LightModeOutlined v-if="mode.isDarkMode" />
-                <DarkModeOutlined v-else />
-              </NIcon>
-            </NSpace>
+            <NIcon size="20">
+              <LightModeOutlined v-if="mode.isDarkMode" />
+              <DarkModeOutlined v-else />
+            </NIcon>
           </template>
         </NButton>
       </NSpace>
@@ -38,7 +40,9 @@ import {
   BookOutlined,
   HomeOutlined,
 } from "@vicons/material";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const mode = useColorModeStore();
 
 defineProps<{
