@@ -40,7 +40,7 @@ import type { MenuOption } from "naive-ui";
 
 const menuOptions = reactive<MenuOption[]>([
   {
-    label: "全部条目",
+    label: "全部摘录",
     key: "all",
   },
   {
