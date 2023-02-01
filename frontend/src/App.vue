@@ -1,5 +1,10 @@
 <template>
-  <n-config-provider :theme="colorMode.isDarkMode ? darkTheme : null">
+  <n-config-provider
+    :theme="colorMode.isDarkMode ? darkTheme : null"
+    :theme-overrides="
+      colorMode.isDarkMode ? darkThemeOverrides : lightThemeOverrides
+    "
+  >
     <n-message-provider>
       <RouterView />
     </n-message-provider>
@@ -7,28 +12,33 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
 import { useColorModeStore } from "./store/ColorMode";
-import { darkTheme } from "naive-ui";
+import { darkTheme, GlobalThemeOverrides } from "naive-ui";
 
 const colorMode = useColorModeStore();
 
-onMounted(() => {
-  let media = window.matchMedia("(prefers-color-scheme: dark)");
-  if (media.matches) {
-    colorMode.setColorMode("dark");
-  } else {
-    colorMode.setColorMode("light");
-  }
+const lightThemeOverrides: GlobalThemeOverrides = {
+  common: {
+    baseColor: "#FFFFF7FF",
+    primaryColor: "#A07C18FF",
+    primaryColorHover: "#AD9136FF",
+    primaryColorPressed: "#7A600CFF",
+    primaryColorSuppl: "#AD9136FF",
+    bodyColor: "#FFFFF7FF",
+    modalColor: "#FFFFF7FF",
+    cardColor: "#FFFFF7FF",
+    popoverColor: "#FFFFF7FF",
+    tableColor: "#FFFFF7FF",
+    inputColor: "#FFFFF7FF",
+  },
+};
 
-  console.log(colorMode.isDarkMode);
-
-  media.addEventListener("change", (e) => {
-    if (e.matches) {
-      colorMode.setColorMode("dark");
-    } else {
-      colorMode.setColorMode("light");
-    }
-  });
-});
+const darkThemeOverrides: GlobalThemeOverrides = {
+  common: {
+    primaryColor: "#E6AD4FFF",
+    primaryColorHover: "#EABD73FF",
+    primaryColorPressed: "#B48535FF",
+    primaryColorSuppl: "#EABD73FF",
+  },
+};
 </script>
