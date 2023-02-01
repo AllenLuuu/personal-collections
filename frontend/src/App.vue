@@ -31,6 +31,9 @@ const lightThemeOverrides: GlobalThemeOverrides = {
     tableColor: "#FFFFF7FF",
     inputColor: "#FFFFF7FF",
   },
+  Tag: {
+    colorBordered: "#FFFFF7FF",
+  },
 };
 
 const darkThemeOverrides: GlobalThemeOverrides = {
