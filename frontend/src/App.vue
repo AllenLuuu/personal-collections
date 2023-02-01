@@ -24,7 +24,7 @@ const lightThemeOverrides: GlobalThemeOverrides = {
     primaryColorHover: "#AD9136FF",
     primaryColorPressed: "#7A600CFF",
     primaryColorSuppl: "#AD9136FF",
-    bodyColor: "#FFFFF7FF",
+    bodyColor: "#FFFFF0FF",
     modalColor: "#FFFFF7FF",
     cardColor: "#FFFFF7FF",
     popoverColor: "#FFFFF7FF",
