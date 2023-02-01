@@ -17,4 +17,5 @@ export const useColorModeStore = defineStore("color-mode", {
       this.colorMode = this.colorMode === "dark" ? "light" : "dark";
     },
   },
+  persist: true,
 });
