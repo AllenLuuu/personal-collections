@@ -1,5 +1,6 @@
 import Index from "../pages/index.vue";
-import LoginVue from "../pages/admin/login.vue";
+import Login from "../pages/admin/login.vue";
+import Home from "../pages/admin/home.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -9,8 +10,12 @@ const routes = [
   },
   {
     path: "/admin/login",
-    component: LoginVue,
+    component: Login,
   },
+  {
+    path: "/admin",
+    component: Home,
+  }
 ];
 
 export const router = createRouter({

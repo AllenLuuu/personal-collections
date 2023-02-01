@@ -5,17 +5,24 @@
         <NIcon :size="40">
           <BookOutlined />
         </NIcon>
-        <h1 style="overflow: hidden; white-space: nowrap">游逛者 · 书摘 {{ suffix }}</h1>
+        <h1 style="overflow: hidden; white-space: nowrap">
+          游逛者 · 书摘 {{ suffix }}
+        </h1>
       </div>
     </NGi>
     <NGi class="right">
       <NSpace size="large">
         <NButton text :focusable="false" @click="mode.revertColorMode">
           <template #icon>
-            <NIcon size="20">
-              <LightModeOutlined v-if="mode.isDarkMode" />
-              <DarkModeOutlined v-else />
-            </NIcon>
+            <NSpace>
+              <NIcon v-if="showHome" size="20">
+                <HomeOutlined />
+              </NIcon>
+              <NIcon size="20">
+                <LightModeOutlined v-if="mode.isDarkMode" />
+                <DarkModeOutlined v-else />
+              </NIcon>
+            </NSpace>
           </template>
         </NButton>
       </NSpace>
@@ -25,12 +32,18 @@
 
 <script setup lang="ts">
 import { useColorModeStore } from "../store/ColorMode";
-import { LightModeOutlined, DarkModeOutlined, BookOutlined } from "@vicons/material";
+import {
+  LightModeOutlined,
+  DarkModeOutlined,
+  BookOutlined,
+  HomeOutlined,
+} from "@vicons/material";
 
 const mode = useColorModeStore();
 
 defineProps<{
   suffix?: string;
+  showHome?: boolean;
 }>();
 </script>
 
