@@ -21,11 +21,14 @@
           <AddButton :height="40" @click="handleAddCollection" />
           <Colletion
             v-for="collection in collections"
+            showAdminButtons
             :key="collection.id"
             :content="collection.content"
             :author="collection.author"
             :book="collection.book"
             :tags="collection.tags"
+            @edit="editCollection(collection.id)"
+            @delete="deleteCollection(collection.id)"
           />
         </div>
       </NLayoutContent>
@@ -78,6 +81,14 @@ const handleAddTopic = () => {
 
 const handleAddCollection = () => {
   console.log("add collection");
+};
+
+const editCollection = (id: string) => {
+  console.log("edit collection", id);
+};
+
+const deleteCollection = (id: string) => {
+  console.log("delete collection", id);
 };
 </script>
 

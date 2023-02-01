@@ -5,13 +5,29 @@
         <NIcon size="40" class="left-quote" color="rgba(150, 150, 150, 0.5)">
           <FormatQuoteRound />
         </NIcon>
-        <NButton text :focusable="false" @click="copy">
-          <template #icon>
-            <NIcon size="20" class="copy-button">
-              <ContentCopyRound />
-            </NIcon>
-          </template>
-        </NButton>
+        <NSpace>
+          <NButton v-if="showAdminButtons" text :focusable="false" @click="emit('edit')">
+            <template #icon>
+              <NIcon size="20" class="small-button">
+                <EditNoteOutlined />
+              </NIcon>
+            </template>
+          </NButton>
+          <NButton v-if="showAdminButtons" text :focusable="false" @click="emit('delete')">
+            <template #icon>
+              <NIcon size="20" class="small-button">
+                <DeleteOutlined />
+              </NIcon>
+            </template>
+          </NButton>
+          <NButton text :focusable="false" @click="copy">
+            <template #icon>
+              <NIcon size="20" class="small-button">
+                <ContentCopyRound />
+              </NIcon>
+            </template>
+          </NButton>
+        </NSpace>
       </div>
       <div class="content">{{ content }}</div>
       <div class="right">
@@ -39,17 +55,25 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { FormatQuoteRound, ContentCopyRound } from "@vicons/material";
+import {
+  FormatQuoteRound,
+  ContentCopyRound,
+  EditNoteOutlined,
+  DeleteOutlined,
+} from "@vicons/material";
 import { useMessage } from "naive-ui";
 
 const message = useMessage();
 
 const props = defineProps<{
+  showAdminButtons?: boolean;
   content: string;
   author: string;
   book: string;
   tags: string[];
 }>();
+
+const emit = defineEmits(["edit", "delete"]);
 
 const source = computed(() => {
   if (props.author && props.book) {
@@ -96,7 +120,7 @@ function copy() {
   justify-content: space-between;
   align-items: flex-start;
 }
-.copy-button {
+.small-button {
   opacity: 0.7;
 }
 .left-quote {
