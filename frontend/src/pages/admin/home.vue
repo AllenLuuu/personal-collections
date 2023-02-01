@@ -42,11 +42,15 @@ import Header from "../../components/Header.vue";
 import Colletion from "../../components/Collection.vue";
 import { reactive, ref } from "vue";
 import type { MenuOption } from "naive-ui";
+import { useDialog, useMessage } from "naive-ui";
 import AddButton from "../../components/AddButton.vue";
+
+const dialog = useDialog();
+const message = useMessage();
 
 const menuOptions = reactive<MenuOption[]>([
   {
-    label: "全部条目",
+    label: "全部摘录",
     key: "all",
   },
   {
@@ -89,6 +93,15 @@ const editCollection = (id: string) => {
 
 const deleteCollection = (id: string) => {
   console.log("delete collection", id);
+  dialog.warning({
+    title: "删除摘录",
+    content: "确定要删除这条摘录吗？",
+    positiveText: "确定",
+    negativeText: "取消",
+    onPositiveClick: () => {
+      message.success("删除成功");
+    },
+  });
 };
 </script>
 
