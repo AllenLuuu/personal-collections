@@ -24,7 +24,7 @@
           <TopicBar
             v-if="tid"
             :title="topicInfo.title"
-            :content="topicInfo.content"
+            :detail="topicInfo.detail"
           />
           <Colletion
             v-for="collection in collections"
@@ -94,13 +94,13 @@ const handleMenuClick = (key: string) => {
 
 const topicInfo = reactive({
   title: "",
-  content: "",
+  detail: "",
 });
 
 const setTopic = async (tid: string): Promise<void> => {
   // const topic = await fetchTopic(tid);
   topicInfo.title = "test topic 测试专题";
-  topicInfo.content = "test content ".repeat(50) + "测试内容 ".repeat(50);
+  topicInfo.detail = "test content ".repeat(50) + "测试内容 ".repeat(50);
 };
 
 watch(
@@ -110,7 +110,7 @@ watch(
       setTopic(tid);
     } else {
       topicInfo.title = "";
-      topicInfo.content = "";
+      topicInfo.detail = "";
     }
     setCollections(tid);
   }

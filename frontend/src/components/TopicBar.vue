@@ -2,7 +2,7 @@
   <div class="topic-bar">
     <NH1>{{ title }}</NH1>
     <NBlockquote>
-      {{ content }}
+      {{ detail }}
     </NBlockquote>
   </div>
 </template>
@@ -10,7 +10,7 @@
 <script setup lang="ts">
 defineProps<{
   title: string;
-  content: string;
+  detail: string;
 }>();
 </script>
 
