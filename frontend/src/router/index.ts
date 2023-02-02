@@ -24,6 +24,11 @@ const routes: RouteRecordRaw[] = [
     component: Home,
   },
   {
+    path: "/admin/:tid",
+    component: Home,
+    props: true,
+  },
+  {
     path: "/admin/add",
     component: Editor,
     props: (route) => ({
