@@ -26,6 +26,9 @@
             v-if="tid"
             :title="topicInfo.title"
             :detail="topicInfo.detail"
+            showAdminButtons
+            @edit="editTopic(tid!)"
+            @delete="deleteTopic(tid!)"
           />
           <AddButton :height="40" @click="showModal = true" />
           <Colletion
@@ -239,6 +242,22 @@ const deleteCollection = (id: string) => {
   dialog.warning({
     title: "删除摘录",
     content: "确定要删除这条摘录吗？",
+    positiveText: "确定",
+    negativeText: "取消",
+    onPositiveClick: () => {
+      message.success("删除成功");
+    },
+  });
+};
+
+const editTopic = (tid: string) => {
+  router.push(`/admin/topic/edit/${tid}`);
+};
+
+const deleteTopic = (tid: string) => {
+  dialog.warning({
+    title: "删除专题",
+    content: "确定要删除这个专题吗？",
     positiveText: "确定",
     negativeText: "取消",
     onPositiveClick: () => {
