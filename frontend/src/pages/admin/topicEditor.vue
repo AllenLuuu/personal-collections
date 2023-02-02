@@ -22,7 +22,7 @@
           </NFormItem>
           <NSpace justify="end">
             <NButton @click="cancel"> 取消 </NButton>
-            <NButton type="primary" @click="submit"> 提交 </NButton>
+            <NButton type="primary" @click="submit"> 发布 </NButton>
           </NSpace>
         </NForm>
       </NCard>
