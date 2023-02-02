@@ -14,7 +14,7 @@
         :class="hideSider ? 'transparent' : null"
       >
         <NMenu
-          default-value="all"
+          :value="menuValue"
           :options="menuOptions"
           @update-value="handleMenuClick"
         />
@@ -59,8 +59,10 @@ onMounted(async () => {
     setTopic(props.tid);
   }
   setCollections();
+  menuValue.value = props.tid ?? "all";
 });
 
+const menuValue = ref<string>("all");
 const menuOptions = reactive<MenuOption[]>([
   {
     label: "全部摘录",
@@ -90,6 +92,7 @@ const handleMenuClick = (key: string) => {
   } else {
     router.push({ path: `/${key}` });
   }
+  menuValue.value = key;
 };
 
 const topicInfo = reactive({
@@ -113,6 +116,7 @@ watch(
       topicInfo.detail = "";
     }
     setCollections(tid);
+    menuValue.value = tid ?? "all";
   }
 );
 
