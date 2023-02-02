@@ -10,6 +10,11 @@ const routes: RouteRecordRaw[] = [
     component: Index,
   },
   {
+    path: "/:tid",
+    component: Index,
+    props: true,
+  },
+  {
     path: "/admin/login",
     component: Login,
   },

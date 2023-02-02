@@ -10,6 +10,7 @@ declare module '@vue/runtime-core' {
     AddButton: typeof import('./src/components/AddButton.vue')['default']
     Collection: typeof import('./src/components/Collection.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
+    NBlockquote: typeof import('naive-ui')['NBlockquote']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
     NCardHeader: typeof import('naive-ui')['NCardHeader']
@@ -41,5 +42,6 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SearchButton: typeof import('./src/components/SearchButton.vue')['default']
+    TopicBar: typeof import('./src/components/TopicBar.vue')['default']
   }
 }
