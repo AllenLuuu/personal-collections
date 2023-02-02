@@ -110,7 +110,7 @@ function copy() {
 
 <style scoped>
 .container {
-  padding: 10px;
+  padding: 10px 0;
 }
 .n-card {
   border-radius: 10px;
