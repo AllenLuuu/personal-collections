@@ -119,7 +119,7 @@ const collections = reactive<CollectionType[]>([
 ]);
 
 const handleAddTopic = () => {
-  console.log("add topic");
+  router.push("/admin/topic/add");
 };
 
 const showModal = ref(false);

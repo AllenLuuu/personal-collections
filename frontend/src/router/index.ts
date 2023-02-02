@@ -2,6 +2,7 @@ import Index from "../pages/index.vue";
 import Login from "../pages/admin/login.vue";
 import Home from "../pages/admin/home.vue";
 import Editor from "../pages/admin/editor.vue";
+import TopicEditor from "../pages/admin/topicEditor.vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: RouteRecordRaw[] = [
@@ -33,6 +34,15 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/admin/edit/:cid",
     component: Editor,
+    props: true,
+  },
+  {
+    path: "/admin/topic/add",
+    component: TopicEditor,
+  },
+  {
+    path: "/admin/topic/edit/:tid",
+    component: TopicEditor,
     props: true,
   },
 ];
