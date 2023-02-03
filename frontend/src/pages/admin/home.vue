@@ -48,7 +48,7 @@
   </NLayout>
   <SearchButton />
   <NModal v-model:show="showModal">
-    <NCard style="width: 600px">
+    <NCard style="max-width: 600px">
       <NSpace size="large" vertical>
         <NRadioGroup v-model:value="addSchema" name="chooseAddSchema">
           <NSpace>
