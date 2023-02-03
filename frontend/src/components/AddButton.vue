@@ -11,6 +11,7 @@
         <PlusOutlined />
       </n-icon>
     </template>
+    {{ text ?? null }}
   </n-button>
 </template>
 
@@ -19,6 +20,7 @@ import { PlusOutlined } from "@vicons/material";
 
 defineProps<{
   height?: number;
+  text?: string;
 }>();
 
 const emit = defineEmits(["click"]);
