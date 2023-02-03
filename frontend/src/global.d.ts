@@ -9,6 +9,6 @@ interface CollectionType {
 interface TopicType {
   id: string;
   title: string;
-  content: string;
+  detail: string;
   collections: string[];
 }
