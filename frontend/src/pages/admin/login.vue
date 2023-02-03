@@ -14,7 +14,11 @@
               <NInput v-model:value="model.username" />
             </NFormItem>
             <NFormItem label="密码" path="password">
-              <NInput v-model:value="model.password" />
+              <NInput
+                type="password"
+                show-password-on="click"
+                v-model:value="model.password"
+              />
             </NFormItem>
             <NFormItem class="center">
               <NButton type="primary" @click="onSubmit"> 登录 </NButton>
@@ -28,12 +32,16 @@
 
 <script setup lang="ts">
 import Header from "../../components/Header.vue";
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import type { FormInst, FormRules } from "naive-ui";
+import { login } from "../../utils/login";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const formRef = ref<FormInst | null>(null);
 
-const model = ref({
+const model = reactive({
   username: "",
   password: "",
 });
@@ -52,9 +60,12 @@ const rules: FormRules = {
 };
 
 const onSubmit = () => {
-  formRef.value?.validate((errors) => {
+  formRef.value?.validate(async (errors) => {
     if (!errors) {
-      console.log(model.value);
+      const loggedIn = await login(model.username, model.password);
+      if (loggedIn) {
+        router.push("/admin");
+      }
     }
   });
 };

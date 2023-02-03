@@ -7,7 +7,7 @@
   >
     <n-dialog-provider>
       <n-message-provider>
-        <RouterView />
+        <InterLayer />
       </n-message-provider>
     </n-dialog-provider>
   </n-config-provider>
@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import { useColorModeStore } from "./store/ColorMode";
 import { darkTheme, GlobalThemeOverrides } from "naive-ui";
+import InterLayer from "./InterLayer.vue";
 
 const colorMode = useColorModeStore();
 

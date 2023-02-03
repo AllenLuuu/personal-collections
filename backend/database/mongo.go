@@ -10,7 +10,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-// var Client *mongo.Client
 var DB *mongo.Database
 
 func initMongo() error {

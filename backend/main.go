@@ -5,6 +5,7 @@ import (
 	"os"
 	"personal-collections/config"
 	"personal-collections/database"
+	"personal-collections/model"
 	"personal-collections/server"
 
 	"github.com/gin-gonic/gin"
@@ -32,6 +33,7 @@ func main() {
 	initLogger()
 	Do(config.Init())
 	Do(database.Init())
+	Do(model.Init())
 
 	r := gin.Default()
 	Do(server.Init(r))
