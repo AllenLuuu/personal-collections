@@ -21,7 +21,10 @@
             />
           </NFormItem>
         </NForm>
-        <AddButton text="添加摘录"></AddButton>
+        <AddButton
+          text="选择摘录"
+          @click="showCollectionSelector = true"
+        ></AddButton>
         <NDataTable
           :columns="tableColumns"
           :data="selectedCollections"
@@ -36,6 +39,8 @@
       </NCard>
     </NLayout>
   </NLayout>
+
+  <CollectionSelector :show="showCollectionSelector" :selected="target.collections" @close="showCollectionSelector = false" @confirm="handleSelect"/>
 </template>
 
 <script setup lang="ts">
@@ -43,6 +48,7 @@ import type { DataTableColumns, FormInst, FormRules } from "naive-ui";
 import { useMessage, NButton, NEllipsis } from "naive-ui";
 import { onMounted, ref, h, watch } from "vue";
 import Header from "../../components/Header.vue";
+import CollectionSelector from "../../components/CollectionSelector.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -61,7 +67,7 @@ onMounted(async () => {
 
 const formRef = ref<FormInst | null>(null);
 
-const target = ref({
+const target = ref<TopicType>({
   id: "",
   title: "",
   detail: "",
@@ -215,11 +221,16 @@ async function setCollections(cids: string[]) {
   ];
 }
 
-const showCollectionSelector = ref(false);
-
 const pagination = ref({
   pageSize: 10,
 });
+
+const showCollectionSelector = ref(false);
+
+const handleSelect = (collections: string[]) => {
+  target.value.collections = collections;
+  console.log(target.value);
+};
 
 function cancel() {
   router.back();

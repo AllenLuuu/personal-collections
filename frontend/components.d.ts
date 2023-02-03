@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AddButton: typeof import('./src/components/AddButton.vue')['default']
     Collection: typeof import('./src/components/Collection.vue')['default']
+    CollectionSelector: typeof import('./src/components/CollectionSelector.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     NBlockquote: typeof import('naive-ui')['NBlockquote']
     NButton: typeof import('naive-ui')['NButton']
@@ -34,6 +35,7 @@ declare module '@vue/runtime-core' {
     NMenu: typeof import('naive-ui')['NMenu']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NModal: typeof import('naive-ui')['NModal']
+    NP: typeof import('naive-ui')['NP']
     NPopover: typeof import('naive-ui')['NPopover']
     NRadio: typeof import('naive-ui')['NRadio']
     NRadioGroup: typeof import('naive-ui')['NRadioGroup']
