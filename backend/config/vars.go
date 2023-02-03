@@ -1,5 +1,5 @@
 package config
 
-var MongoUri MongoUriType
+var Mongo MongoType
 
 var Server ServerType

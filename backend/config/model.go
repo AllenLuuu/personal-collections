@@ -1,6 +1,12 @@
 package config
 
-type MongoUriType string
+type MongoType struct {
+	Host     string
+	Port     int
+	Username string
+	Password string
+	Database string
+}
 
 type ServerType struct {
 	Port   int
@@ -9,6 +15,6 @@ type ServerType struct {
 }
 
 type ConfigType struct {
-	MongoUri MongoUriType
-	Server   ServerType
+	Mongo  MongoType
+	Server ServerType
 }

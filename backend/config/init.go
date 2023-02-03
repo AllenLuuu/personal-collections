@@ -23,7 +23,7 @@ func Init() error {
 		return err
 	}
 
-	MongoUri = config.MongoUri
+	Mongo = config.Mongo
 	Server = config.Server
 
 	logrus.Info("[config] Init Success")

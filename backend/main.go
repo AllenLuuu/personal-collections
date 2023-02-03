@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"personal-collections/config"
+	"personal-collections/database"
 	"personal-collections/server"
 
 	"github.com/gin-gonic/gin"
@@ -30,6 +31,8 @@ func initLogger() error {
 func main() {
 	initLogger()
 	Do(config.Init())
+	Do(database.Init())
+
 	r := gin.Default()
 	Do(server.Init(r))
 
