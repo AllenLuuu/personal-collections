@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import type { DataTableColumns, FormInst, FormRules } from "naive-ui";
 import { useMessage, NButton, NEllipsis } from "naive-ui";
-import { onMounted, ref, h } from "vue";
+import { onMounted, ref, h, watch } from "vue";
 import Header from "../../components/Header.vue";
 import { useRouter } from "vue-router";
 
@@ -52,9 +52,10 @@ const props = defineProps<{
   tid?: string;
 }>();
 
-onMounted(() => {
+onMounted(async () => {
   if (props.tid) {
-    setTopic(props.tid);
+    await setTopic(props.tid);
+    setCollections(target.value.collections);
   }
 });
 
@@ -80,7 +81,7 @@ const rules: FormRules = {
   },
 };
 
-function setTopic(tid: string) {
+async function setTopic(tid: string) {
   target.value = {
     id: tid,
     title: "test",
@@ -180,29 +181,41 @@ const tableColumns: DataTableColumns = [
     },
   },
 ];
-const selectedCollections = ref<CollectionType[]>([
-  {
-    id: "1",
-    content: "test ".repeat(100),
-    author: "test",
-    book: "test",
-    tags: ["test", "test"],
-  },
-  {
-    id: "2",
-    content: "test",
-    author: "test ".repeat(5),
-    book: "test",
-    tags: ["test", "test"],
-  },
-  {
-    id: "3",
-    content: "test",
-    author: "test",
-    book: "test",
-    tags: ["test", "test"],
-  },
-]);
+
+const selectedCollections = ref<CollectionType[]>([]);
+watch(
+  () => target.value.collections,
+  (newVal) => {
+    setCollections(newVal);
+  }
+);
+async function setCollections(cids: string[]) {
+  selectedCollections.value = [
+    {
+      id: "1",
+      content: "test ".repeat(100),
+      author: "test",
+      book: "test",
+      tags: ["test", "test"],
+    },
+    {
+      id: "2",
+      content: "test",
+      author: "test ".repeat(5),
+      book: "test",
+      tags: ["test", "test"],
+    },
+    {
+      id: "3",
+      content: "test",
+      author: "test",
+      book: "test",
+      tags: ["test", "test"],
+    },
+  ];
+}
+
+const showCollectionSelector = ref(false);
 
 const pagination = ref({
   pageSize: 10,
