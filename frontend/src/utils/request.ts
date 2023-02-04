@@ -23,7 +23,7 @@ const request = async <T>(
     credentials: "include",
   });
   if (response.ok) {
-    const res = await response.json();
+    const res = await response.json() as ResponseType<T>;
     if (res.code === 0) {
       return res.data;
     } else {

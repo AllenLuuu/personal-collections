@@ -2,7 +2,11 @@ import { post } from "./request";
 
 export async function login(username: string, password: string) {
   try {
-    await post(
+    await post<{
+      id: string;
+      username: string;
+      password: string;
+    }>(
       "/login",
       {
         username,
