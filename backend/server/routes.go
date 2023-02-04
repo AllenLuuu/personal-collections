@@ -3,6 +3,7 @@ package server
 import (
 	. "personal-collections/handler"
 	"personal-collections/middleware"
+	"personal-collections/session"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -25,6 +26,9 @@ func configRoutes(e *gin.Engine) {
 	}
 	e.Use(cors.New(cors_cfg))
 
-	root := e.Group("/", middleware.Response)
+	root := e.Group("/", session.SessionMiddleware, middleware.Response)
 	root.POST("/login", Login)
+
+	// 以下是需要登录的路由
+	// admin := root.Group("/admin", middleware.CheckUserLoggedIn)
 }

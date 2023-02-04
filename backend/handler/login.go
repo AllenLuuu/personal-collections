@@ -3,6 +3,7 @@ package handler
 import (
 	"personal-collections/model"
 	"personal-collections/resp"
+	"personal-collections/session"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -31,5 +32,16 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	ss := session.GetSession(c)
+	ss.User = &user
+	ss.HasLoggedIn = true
+
+	if err := ss.Update(); err != nil {
+		logrus.Errorf("[handler] Failed to Save Session")
+		resp.ERR(c, resp.E_DB_INSERT_ERROR, "cannot save session")
+		return
+	}
+
+	logrus.Infof("[handler] User %s logged in, Session ID: %s", user.Username, ss.Id.Hex())
 	resp.JSON(c, user)
 }

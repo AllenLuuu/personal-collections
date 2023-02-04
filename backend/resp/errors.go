@@ -2,9 +2,16 @@ package resp
 
 const (
 
-	// 鉴权 1xxxx
+	// 鉴权
 	E_NOT_LOGGED_IN  = 10001
 	E_WRONG_USERPASS = 10002
 
-	E_BAD_PARAM = 30002
+	// 参数错误
+	E_BAD_PARAM = 30001
+
+	// 数据库错误
+	E_DB_DELETE_ERROR = 40001
+	E_DB_INSERT_ERROR = 40002
+	E_DB_SEARCH_ERROR = 40003
+	E_DB_UPDATE_ERROR = 40004
 )
