@@ -1,8 +1,10 @@
 import { post } from "./request";
+import { useLoginInfoStore } from "../store/LoginInfo";
 
 export async function login(username: string, password: string) {
+  const loginInfoStore = useLoginInfoStore();
   try {
-    await post<{
+    const res = await post<{
       id: string;
       username: string;
       password: string;
@@ -14,6 +16,13 @@ export async function login(username: string, password: string) {
       },
       "登录"
     );
+    
+    loginInfoStore.setLoginInfo({
+      userId: res.id,
+      username: res.username,
+      hasLoggedIn: true,
+    });
+
     return true;
   } catch (error: any) {
     return false;

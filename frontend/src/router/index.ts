@@ -3,6 +3,7 @@ import Login from "../pages/admin/login.vue";
 import Home from "../pages/admin/home.vue";
 import Editor from "../pages/admin/editor.vue";
 import TopicEditor from "../pages/admin/topicEditor.vue";
+import { useLoginInfoStore } from "../store/LoginInfo";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: RouteRecordRaw[] = [
@@ -17,6 +18,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: "/admin/login",
+    name: "login",
     component: Login,
   },
   {
@@ -55,4 +57,13 @@ const routes: RouteRecordRaw[] = [
 export const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const loginInfoStore = useLoginInfoStore();
+  if (to.path.startsWith("/admin") && to.name !== "login" && !loginInfoStore.isLoggedIn) {
+    next("/admin/login");
+  } else {
+    next();
+  }
 });
