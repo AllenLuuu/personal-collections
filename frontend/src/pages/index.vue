@@ -48,6 +48,18 @@ import { reactive, ref, watch, onMounted } from "vue";
 import type { MenuOption } from "naive-ui";
 import { useRouter } from "vue-router";
 import { listCollections } from "../utils/collection";
+import { useFilterStore } from "../store/Filter";
+
+const filterStore = useFilterStore();
+watch(
+  () => filterStore.filter,
+  (newFilter) => {
+    setCollections(newFilter, props.tid);
+  },
+  {
+    deep: true,
+  }
+);
 
 const router = useRouter();
 
@@ -59,7 +71,7 @@ onMounted(async () => {
   if (props.tid) {
     setTopic(props.tid);
   }
-  setCollections();
+  setCollections(filterStore.filter, props.tid);
   menuValue.value = props.tid ?? "all";
 });
 
@@ -116,7 +128,7 @@ watch(
       topicInfo.title = "";
       topicInfo.detail = "";
     }
-    setCollections(tid);
+    setCollections(filterStore.filter, tid);
     menuValue.value = tid ?? "all";
   }
 );
@@ -124,16 +136,8 @@ watch(
 const hideSider = ref(false);
 
 const collections = ref<CollectionType[]>([]);
-const setCollections = async (tid?: string): Promise<void> => {
-  collections.value = await listCollections(
-    {
-      keyword: "",
-      author: "",
-      book: "",
-      tags: [],
-    },
-    tid
-  );
+const setCollections = async (filter: Filter, tid?: string): Promise<void> => {
+  collections.value = await listCollections(filter, tid);
 };
 </script>
 

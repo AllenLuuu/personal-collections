@@ -8,7 +8,14 @@ declare global {
     book: string;
     tags: string[];
   }
-  
+
+  interface Filter {
+    keyword: string;
+    author: string;
+    book: string;
+    tags: string[];
+  }
+
   interface TopicType {
     id: string;
     title: string;

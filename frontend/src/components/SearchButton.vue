@@ -40,9 +40,11 @@
 
 <script setup lang="ts">
 import { SearchRound } from "@vicons/material";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useColorModeStore } from "../store/ColorMode";
+import { useFilterStore } from "../store/Filter";
 
+const filterStore = useFilterStore();
 const colorMode = useColorModeStore();
 
 const model = ref<{
@@ -62,10 +64,11 @@ function clear() {
   model.value.author = "";
   model.value.book = "";
   model.value.tags = [];
+  filterStore.clear();
 }
 
 function filter() {
-  console.log(model.value);
+  filterStore.setFilter(model.value);
 }
 </script>
 

@@ -27,14 +27,6 @@ export const deleteCollection = async (id: string): Promise<Boolean> => {
   }
 }
 
-
-interface Filter {
-  keyword: string;
-  author: string;
-  book: string;
-  tags: string[];
-}
-
 export const listCollections = async (filter: Filter, tid?: string): Promise<CollectionType[]> => {
   if (!tid) {
     try {
