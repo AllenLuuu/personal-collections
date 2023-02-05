@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"personal-collections/config"
 	"personal-collections/model"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -19,6 +20,7 @@ func SessionMiddleware(c *gin.Context) {
 	c.SetSameSite(http.SameSiteNoneMode)
 
 	session_key, err := c.Cookie(KEY_SESSION)
+	logrus.Infof("Cookie Session: %s", session_key)
 	var session model.SessionData
 	if err == nil {
 		err = session.GetById(session_key)
@@ -32,7 +34,7 @@ func SessionMiddleware(c *gin.Context) {
 		}
 		session_key = session.Id.Hex()
 		logrus.Infof("Created Cookie Session: %s", session_key)
-		c.SetCookie(KEY_SESSION, session_key, -1, "/", config.Server.Domain, true, true)
+		c.SetCookie(KEY_SESSION, session_key, 24 * int(time.Hour/time.Second), "/", config.Server.Domain, true, true)
 	} else {
 		// logrus.Infof("Loaded Cookie Session: %s", session.Id)
 		if session.User != nil {

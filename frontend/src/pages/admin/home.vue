@@ -94,6 +94,10 @@ import type { MenuOption } from "naive-ui";
 import { useDialog, useMessage } from "naive-ui";
 import AddButton from "../../components/AddButton.vue";
 import { useRouter } from "vue-router";
+import {
+  listCollections,
+  deleteCollection as deleteC,
+} from "../../utils/collection";
 
 const dialog = useDialog();
 const message = useMessage();
@@ -171,39 +175,17 @@ watch(
 
 const hideSider = ref(false);
 
-const collections = ref<CollectionType[]>([
-  {
-    id: "1",
-    content: "这是一条内容",
-    author: "作者",
-    book: "书名",
-    tags: ["标签1", "标签2"],
-  },
-]);
+const collections = ref<CollectionType[]>([]);
 const setCollections = async (tid?: string): Promise<void> => {
-  collections.value = [
+  collections.value = await listCollections(
     {
-      id: "1",
-      content: "test content" + (tid ?? ""),
-      author: "test author",
-      book: "test book",
-      tags: ["test tag 1"],
+      keyword: "",
+      author: "",
+      book: "",
+      tags: [],
     },
-    {
-      id: "2",
-      content: "test content",
-      author: "test author",
-      book: "test book",
-      tags: ["test tag 1", "test tag 2"],
-    },
-    {
-      id: "3",
-      content: "test content",
-      author: "test author",
-      book: "test book",
-      tags: ["test tag 1", "test tag 2", "test tag 3"],
-    },
-  ];
+    tid
+  );
 };
 
 const handleAddTopic = () => {
@@ -227,10 +209,12 @@ const batchConfig = reactive({
   book: "",
 });
 const handleAddCollection = () => {
-  if ((addSchema.value === "one")) {
+  if (addSchema.value === "one") {
     router.push("/admin/add");
   } else {
-    router.push(`/admin/add?author=${batchConfig.author}&book=${batchConfig.book}`);
+    router.push(
+      `/admin/add?author=${batchConfig.author}&book=${batchConfig.book}`
+    );
   }
 };
 
@@ -244,8 +228,12 @@ const deleteCollection = (id: string) => {
     content: "确定要删除这条摘录吗？",
     positiveText: "确定",
     negativeText: "取消",
-    onPositiveClick: () => {
-      message.success("删除成功");
+    onPositiveClick: async () => {
+      const deleted = await deleteC(id);
+      if (deleted) {
+        message.success("删除成功");
+        setCollections(props.tid);
+      }
     },
   });
 };

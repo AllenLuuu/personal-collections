@@ -12,7 +12,7 @@ import (
 func CheckUserLoggedIn(c *gin.Context) {
 	ss := session.GetSession(c)
 	if ss.User == nil || !ss.HasLoggedIn {
-		resp.ERR(c, resp.E_NOT_LOGGED_IN, "not logined!")
+		resp.ERR(c, resp.E_NOT_LOGGED_IN, "未登录！")
 		c.Abort()
 		return
 	}

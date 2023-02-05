@@ -47,6 +47,7 @@ import Colletion from "../components/Collection.vue";
 import { reactive, ref, watch, onMounted } from "vue";
 import type { MenuOption } from "naive-ui";
 import { useRouter } from "vue-router";
+import { listCollections } from "../utils/collection";
 
 const router = useRouter();
 
@@ -124,29 +125,15 @@ const hideSider = ref(false);
 
 const collections = ref<CollectionType[]>([]);
 const setCollections = async (tid?: string): Promise<void> => {
-  collections.value = [
+  collections.value = await listCollections(
     {
-      id: "1",
-      content: "test content" + (tid ?? ""),
-      author: "test author",
-      book: "test book",
-      tags: ["test tag 1"],
+      keyword: "",
+      author: "",
+      book: "",
+      tags: [],
     },
-    {
-      id: "2",
-      content: "test content",
-      author: "test author",
-      book: "test book",
-      tags: ["test tag 1", "test tag 2"],
-    },
-    {
-      id: "3",
-      content: "test content",
-      author: "test author",
-      book: "test book",
-      tags: ["test tag 1", "test tag 2", "test tag 3"],
-    },
-  ];
+    tid
+  );
 };
 </script>
 

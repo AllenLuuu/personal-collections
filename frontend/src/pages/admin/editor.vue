@@ -43,6 +43,7 @@ import { useMessage } from "naive-ui";
 import { onMounted, ref } from "vue";
 import Header from "../../components/Header.vue";
 import { useRouter } from "vue-router";
+import { getCollection, insertCollection, updateCollection } from "../../utils/collection";
 
 const router = useRouter();
 const message = useMessage();
@@ -55,7 +56,9 @@ const props = defineProps<{
 
 onMounted(() => {
   if (props.cid) {
-    console.log(props.cid);
+    getCollection(props.cid).then((res) => {
+      target.value = res;
+    });
   } else {
     target.value.author = props.author ?? "";
     target.value.book = props.book ?? "";
@@ -85,16 +88,33 @@ function cancel() {
 }
 
 function submit() {
-  formRef.value?.validate((errors) => {
+  formRef.value?.validate(async (errors) => {
     if (!errors) {
-      message.success("提交成功");
-      if (!props.author && !props.book) {
-        router.back();
+      if (props.cid) {
+        const success = await updateCollection(target.value);
+        if (success) {
+          message.success("提交成功");
+          router.back();
+        }
+        return;
       } else {
-        target.value.content = "";
-        target.value.author = props.author ?? "";
-        target.value.book = props.book ?? "";
-        target.value.tags = [];
+        const success = await insertCollection({
+          content: target.value.content,
+          author: target.value.author,
+          book: target.value.book,
+          tags: target.value.tags,
+        });
+        if (success) {
+          message.success("提交成功");
+          if (!props.author && !props.book) {
+            router.back();
+          } else {
+            target.value.content = "";
+            target.value.author = props.author ?? "";
+            target.value.book = props.book ?? "";
+            target.value.tags = [];
+          }
+        }
       }
     }
   });

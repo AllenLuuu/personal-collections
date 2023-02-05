@@ -29,6 +29,16 @@ func configRoutes(e *gin.Engine) {
 	root := e.Group("/", session.SessionMiddleware, middleware.Response)
 	root.POST("/login", Login)
 
+	// 以下是不需要登录的路由
+	collection_u := root.Group("/collection")
+	collection_u.POST("/list", ListCollections)
+	collection_u.POST("/get", GetCollectionByID)
+	collection_u.POST("/get-many", GetCollectionsByIDs)
+
 	// 以下是需要登录的路由
-	// admin := root.Group("/admin", middleware.CheckUserLoggedIn)
+	admin := root.Group("/admin", middleware.CheckUserLoggedIn)
+	collection_a := admin.Group("/collection")
+	collection_a.POST("/insert", InsertCollection)
+	collection_a.POST("/update", UpdateCollection)
+	collection_a.POST("/delete", DeleteCollection)
 }
