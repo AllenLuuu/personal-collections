@@ -35,7 +35,7 @@
           <FormatQuoteRound />
         </NIcon>
       </div>
-      <div class="source" style="margin-top: 1.5rem">—— {{ source }}</div>
+      <div class="source" style="margin-top: 1.5rem">{{ source }}</div>
       <template #footer v-if="tags && tags.length">
         <NDivider />
         <NSpace :size="[0, 5]">
@@ -77,11 +77,11 @@ const emit = defineEmits(["edit", "delete"]);
 
 const source = computed(() => {
   if (props.author && props.book) {
-    return `${props.author}《${props.book}》`;
+    return `—— ${props.author}《${props.book}》`;
   } else if (props.author) {
-    return props.author;
+    return "—— " + props.author;
   } else if (props.book) {
-    return `《${props.book}》`;
+    return `——《${props.book}》`;
   } else {
     return "";
   }
