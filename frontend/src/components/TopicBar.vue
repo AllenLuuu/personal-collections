@@ -43,7 +43,7 @@ import {
 defineProps<{
   title: string;
   detail: string;
-  showAdminButtons: boolean;
+  showAdminButtons?: boolean;
 }>();
 
 const emit = defineEmits<{

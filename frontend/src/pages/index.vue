@@ -21,19 +21,7 @@
       </NLayoutSider>
       <NLayoutContent :native-scrollbar="false">
         <div class="content">
-          <TopicBar
-            v-if="tid"
-            :title="topicInfo.title"
-            :detail="topicInfo.detail"
-          />
-          <Colletion
-            v-for="collection in collections"
-            :key="collection.id"
-            :content="collection.content"
-            :author="collection.author"
-            :book="collection.book"
-            :tags="collection.tags"
-          />
+          <CollectionPage :tid="tid" />
         </div>
       </NLayoutContent>
     </NLayout>
@@ -43,23 +31,10 @@
 
 <script setup lang="ts">
 import Header from "../components/Header.vue";
-import Colletion from "../components/Collection.vue";
 import { reactive, ref, watch, onMounted } from "vue";
 import type { MenuOption } from "naive-ui";
 import { useRouter } from "vue-router";
-import { listCollections } from "../utils/collection";
-import { useFilterStore } from "../store/Filter";
-
-const filterStore = useFilterStore();
-watch(
-  () => filterStore.filter,
-  (newFilter) => {
-    setCollections(newFilter, props.tid);
-  },
-  {
-    deep: true,
-  }
-);
+import CollectionPage from "../components/CollectionPage.vue";
 
 const router = useRouter();
 
@@ -68,10 +43,6 @@ const props = defineProps<{
 }>();
 
 onMounted(async () => {
-  if (props.tid) {
-    setTopic(props.tid);
-  }
-  setCollections(filterStore.filter, props.tid);
   menuValue.value = props.tid ?? "all";
 });
 
@@ -108,37 +79,14 @@ const handleMenuClick = (key: string) => {
   menuValue.value = key;
 };
 
-const topicInfo = reactive({
-  title: "",
-  detail: "",
-});
-
-const setTopic = async (tid: string): Promise<void> => {
-  // const topic = await fetchTopic(tid);
-  topicInfo.title = "test topic 测试专题";
-  topicInfo.detail = "test content ".repeat(50) + "测试内容 ".repeat(50);
-};
-
 watch(
   () => props.tid,
   async (tid) => {
-    if (tid) {
-      setTopic(tid);
-    } else {
-      topicInfo.title = "";
-      topicInfo.detail = "";
-    }
-    setCollections(filterStore.filter, tid);
     menuValue.value = tid ?? "all";
   }
 );
 
 const hideSider = ref(false);
-
-const collections = ref<CollectionType[]>([]);
-const setCollections = async (filter: Filter, tid?: string): Promise<void> => {
-  collections.value = await listCollections(filter, tid);
-};
 </script>
 
 <style scoped>

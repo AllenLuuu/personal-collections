@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AddButton: typeof import('./src/components/AddButton.vue')['default']
     Collection: typeof import('./src/components/Collection.vue')['default']
+    CollectionPage: typeof import('./src/components/CollectionPage.vue')['default']
     CollectionSelector: typeof import('./src/components/CollectionSelector.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     NBlockquote: typeof import('naive-ui')['NBlockquote']
