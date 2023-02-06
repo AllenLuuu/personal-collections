@@ -139,7 +139,7 @@ function copy() {
   font-size: 1.3rem;
   font-weight: bold;
   font-family: v-sans, v-mono, "Times New Roman", Times, serif;
-  padding-inline-start: 50px;
-  padding-inline-end: 50px;
+  padding: 0 50px;
+  white-space: pre-line;
 }
 </style>
