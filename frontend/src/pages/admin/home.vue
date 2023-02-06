@@ -13,11 +13,7 @@
         :bordered="!hideSider"
         :class="hideSider ? 'transparent' : null"
       >
-        <NMenu
-          :value="menuValue"
-          :options="menuOptions"
-          @update-value="handleMenuClick"
-        />
+        <SideMenu v-model:menuValue="menuValue" is-admin />
         <AddButton @click="handleAddTopic" />
       </NLayoutSider>
       <NLayoutContent :native-scrollbar="false">
@@ -75,15 +71,12 @@
 
 <script setup lang="ts">
 import Header from "../../components/Header.vue";
-import { onMounted, reactive, ref, watch } from "vue";
-import type { MenuOption } from "naive-ui";
-import { useDialog, useMessage } from "naive-ui";
+import { onMounted, reactive, ref } from "vue";
 import CollectionPage from "../../components/CollectionPage.vue";
 import AddButton from "../../components/AddButton.vue";
+import SideMenu from "../../components/SideMenu.vue";
 import { useRouter } from "vue-router";
 
-const dialog = useDialog();
-const message = useMessage();
 const router = useRouter();
 
 const props = defineProps<{
@@ -95,44 +88,6 @@ onMounted(async () => {
 });
 
 const menuValue = ref<string>("all");
-const menuOptions = reactive<MenuOption[]>([
-  {
-    label: "全部摘录",
-    key: "all",
-  },
-  {
-    type: "group",
-    label: "专题",
-    key: "groups",
-    children: [
-      {
-        label: "test topic 测试专题",
-        key: "test-topic",
-      },
-      {
-        label: "敬请期待...",
-        key: "coming-soon",
-        disabled: true,
-      },
-    ],
-  },
-]);
-
-const handleMenuClick = (key: string) => {
-  if (key === "all") {
-    router.push({ path: "/admin/" });
-  } else {
-    router.push({ path: `/admin/${key}` });
-  }
-  menuValue.value = key;
-};
-
-watch(
-  () => props.tid,
-  async (tid) => {
-    menuValue.value = tid ?? "all";
-  }
-);
 
 const hideSider = ref(false);
 
