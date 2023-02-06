@@ -64,9 +64,13 @@ const topicInfo = reactive({
 });
 
 const setTopic = async (tid: string): Promise<void> => {
-  // const topic = await fetchTopic(tid);
-  topicInfo.title = "test topic 测试专题";
-  topicInfo.detail = "test content ".repeat(50) + "测试内容 ".repeat(50);
+  if (tid === "stars") {
+    topicInfo.title = "精选摘录";
+    topicInfo.detail = "将被用于主页的每日一句展示";
+  } else {
+    topicInfo.title = "test topic 测试专题";
+    topicInfo.detail = "test topic 测试专题";
+  }
 };
 
 const deleteTopic = (tid: string) => {

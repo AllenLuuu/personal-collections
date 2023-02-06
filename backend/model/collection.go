@@ -41,22 +41,40 @@ func GetCollectionsByIDs(ids []string) ([]Collection, error) {
 	return collections, nil
 }
 
-func getStarredCollections() ([]Collection, error) {
+type Filter struct {
+	Keyword string   `json:"keyword"`
+	Author  string   `json:"author"`
+	Book    string   `json:"book"`
+	Tags    []string `json:"tags"`
+}
+
+func ListStarredCollections(filter Filter) ([]Collection, error) {
 	var collections []Collection
-	cursor, err := database.DB.Collection(database.COL_Collection).Find(context.TODO(), M{"starred": true})
+	keywords := strings.Split(filter.Keyword, " ")
+	for i, keyword := range keywords {
+		keywords[i] = fmt.Sprintf("(?=.*%s)", keyword)
+	}
+	regexpStr := fmt.Sprintf("%s.*", strings.Join(keywords, ""))
+	var filterMap = M{"starred": true}
+	if filter.Keyword != "" {
+		filterMap["content"] = M{"$regex": regexpStr}
+	}
+	if filter.Author != "" {
+		filterMap["author"] = M{"$regex": filter.Author}
+	}
+	if filter.Book != "" {
+		filterMap["book"] = M{"$regex": filter.Book}
+	}
+	if len(filter.Tags) != 0 {
+		filterMap["tags"] = M{"$elemMatch": M{"$in": filter.Tags}}
+	}
+	cursor, err := database.DB.Collection(database.COL_Collection).Find(context.TODO(), filterMap)
 	if err != nil {
 		return nil, err
 	}
 	cursor.All(context.TODO(), &collections)
 	cursor.Close(context.TODO())
 	return collections, nil
-}
-
-type Filter struct {
-	Keyword string   `json:"keyword"`
-	Author  string   `json:"author"`
-	Book    string   `json:"book"`
-	Tags    []string `json:"tags"`
 }
 
 func ListCollections(filter Filter) ([]Collection, error) {

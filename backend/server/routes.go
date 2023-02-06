@@ -41,4 +41,5 @@ func configRoutes(e *gin.Engine) {
 	collection_a.POST("/insert", InsertCollection)
 	collection_a.POST("/update", UpdateCollection)
 	collection_a.POST("/delete", DeleteCollection)
+	collection_a.POST("/list-starred", ListStarredCollections)
 }

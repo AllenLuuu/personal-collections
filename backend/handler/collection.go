@@ -77,6 +77,24 @@ func GetCollectionsByIDs(c *gin.Context) {
 	resp.JSON(c, collections)
 }
 
+func ListStarredCollections(c *gin.Context) {
+	var req model.Filter
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		logrus.Info(err.Error())
+		resp.ERR(c, resp.E_BAD_PARAM, "参数错误")
+		return
+	}
+
+	collections, err := model.ListStarredCollections(req)
+	if err != nil {
+		logrus.Info(err.Error())
+		resp.ERR(c, resp.E_DB_SEARCH_ERROR, "数据库错误")
+		return
+	}
+	resp.JSON(c, collections)
+}
+
 func ListCollections(c *gin.Context) {
 	var req model.Filter
 	err := c.ShouldBindJSON(&req)

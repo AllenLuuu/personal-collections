@@ -35,13 +35,14 @@ export const listCollections = async (filter: Filter, tid?: string): Promise<Col
     } catch (error) {
       throw error;
     }
+  } else if (tid === "stars") {
+    try {
+      const res = await post<CollectionType[]>("/admin/collection/list-starred", filter, "获取摘录列表");
+      return res;
+    } catch (error) {
+      throw error;
+    }
   } else {
-    // try {
-    //   const res = await post<CollectionType[]>("/collection/list", { filter, tid }, "获取摘录列表");
-    //   return res;
-    // } catch (error) {
-    //   throw error;
-    // }
     return [];
   }
 }
