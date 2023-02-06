@@ -8,7 +8,7 @@
     @delete="deleteTopic(tid!)"
   />
   <Colletion
-    v-for="collection in collections"
+    v-for="collection in collectionsInPage"
     :key="collection.id"
     :content="collection.content"
     :author="collection.author"
@@ -18,12 +18,24 @@
     @edit="emit('edit-collection', collection.id)"
     @delete="deleteCollection(collection.id)"
   />
+  <NSpace justify="end">
+    <NPagination
+      v-if="pageCount > 1"
+      :page="pagination.page"
+      :pageSize="pagination.pageSize"
+      :page-count="pageCount"
+      @update-page="handelPageChange"
+    />
+  </NSpace>
 </template>
 
 <script setup lang="ts">
-import { reactive, watch, ref, onMounted } from "vue";
+import { computed, reactive, watch, ref, onMounted } from "vue";
 import { useDialog, useMessage } from "naive-ui";
-import { listCollections, deleteCollection as deleteC } from "../utils/collection";
+import {
+  listCollections,
+  deleteCollection as deleteC,
+} from "../utils/collection";
 import { useFilterStore } from "../store/Filter";
 import Colletion from "./Collection.vue";
 import TopicBar from "./TopicBar.vue";
@@ -69,8 +81,9 @@ const deleteTopic = (tid: string) => {
 // collections
 const collections = ref<CollectionType[]>([]);
 
-const setCollections = async (filter: Filter, tid?: string): Promise<void> => {
+const setCollections = async (page: number, filter: Filter, tid?: string): Promise<void> => {
   collections.value = await listCollections(filter, tid);
+  handelPageChange(page);
 };
 
 const deleteCollection = (id: string) => {
@@ -83,18 +96,39 @@ const deleteCollection = (id: string) => {
       const deleted = await deleteC(id);
       if (deleted) {
         message.success("删除成功");
-        setCollections(filterStore.filter, props.tid);
+        setCollections(pagination.page, filterStore.filter, props.tid);
       }
     },
   });
 };
+
+// pagination
+const pagination = reactive({
+  page: 1,
+  pageSize: 10,
+});
+const pageCount = computed(() => Math.ceil(collections.value.length / pagination.pageSize));
+
+const collectionsInPage = ref<CollectionType[]>([]);
+
+function handelPageChange(page: number) {
+  if (page < 1) {
+    page = 1;
+  } else if (page > pageCount.value) {
+    page = pageCount.value;
+  }
+  pagination.page = page;
+  const start = (page - 1) * pagination.pageSize;
+  const end = start + pagination.pageSize;
+  collectionsInPage.value = collections.value.slice(start, end);
+}
 
 // global
 onMounted(async () => {
   if (props.tid) {
     setTopic(props.tid);
   }
-  setCollections(filterStore.filter, props.tid);
+  await setCollections(1, filterStore.filter, props.tid);
 });
 
 watch(
@@ -106,13 +140,13 @@ watch(
       topicInfo.title = "";
       topicInfo.detail = "";
     }
-    setCollections(filterStore.filter, tid);
+    setCollections(1, filterStore.filter, tid);
   }
 );
 watch(
   () => filterStore.filter,
   (newFilter) => {
-    setCollections(newFilter, props.tid);
+    setCollections(1, newFilter, props.tid);
   },
   {
     deep: true,
