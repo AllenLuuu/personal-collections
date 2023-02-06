@@ -6,6 +6,7 @@
           <FormatQuoteRound />
         </NIcon>
         <NSpace>
+          <StarButton v-if="showAdminButtons" :starred="starred" @click="emit('star')" />
           <NButton v-if="showAdminButtons" text :focusable="false" @click="emit('edit')">
             <template #icon>
               <NIcon size="20" class="small-button">
@@ -62,18 +63,20 @@ import {
   DeleteOutlined,
 } from "@vicons/material";
 import { useMessage } from "naive-ui";
+import StarButton from "./StarButton.vue";
 
 const message = useMessage();
 
 const props = defineProps<{
   showAdminButtons?: boolean;
+  starred: boolean;
   content: string;
   author: string;
   book: string;
   tags: string[];
 }>();
 
-const emit = defineEmits(["edit", "delete"]);
+const emit = defineEmits(["edit", "delete", "star"]);
 
 const source = computed(() => {
   if (props.author && props.book) {

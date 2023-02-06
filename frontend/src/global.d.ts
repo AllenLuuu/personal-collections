@@ -3,6 +3,7 @@ import { MessageApiInjection } from "naive-ui";
 declare global {
   interface CollectionType {
     id: string;
+    starred: boolean;
     content: string;
     author: string;
     book: string;

@@ -44,9 +44,11 @@ declare module '@vue/runtime-core' {
     NSelect: typeof import('naive-ui')['NSelect']
     NSpace: typeof import('naive-ui')['NSpace']
     NTag: typeof import('naive-ui')['NTag']
+    NText: typeof import('naive-ui')['NText']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SearchButton: typeof import('./src/components/SearchButton.vue')['default']
+    StarButton: typeof import('./src/components/StarButton.vue')['default']
     TopicBar: typeof import('./src/components/TopicBar.vue')['default']
   }
 }

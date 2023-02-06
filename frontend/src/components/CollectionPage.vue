@@ -10,6 +10,7 @@
   <Colletion
     v-for="collection in collectionsInPage"
     :key="collection.id"
+    :starred="collection.starred"
     :content="collection.content"
     :author="collection.author"
     :book="collection.book"
@@ -17,6 +18,7 @@
     :show-admin-buttons="showAdminButtons"
     @edit="emit('edit-collection', collection.id)"
     @delete="deleteCollection(collection.id)"
+    @star="starCollection(collection.id)"
   />
   <NSpace justify="end">
     <NPagination
@@ -35,6 +37,7 @@ import { useDialog, useMessage } from "naive-ui";
 import {
   listCollections,
   deleteCollection as deleteC,
+  updateCollection,
 } from "../utils/collection";
 import { useFilterStore } from "../store/Filter";
 import Colletion from "./Collection.vue";
@@ -84,6 +87,16 @@ const collections = ref<CollectionType[]>([]);
 const setCollections = async (page: number, filter: Filter, tid?: string): Promise<void> => {
   collections.value = await listCollections(filter, tid);
   handelPageChange(page);
+};
+
+const starCollection = async (id: string) => {
+  const collection = collections.value.find((c) => c.id === id);
+  const updated = {
+    ...collection,
+    starred: !collection!.starred,
+  };
+  await updateCollection(updated as CollectionType);
+  collection!.starred = !collection!.starred;
 };
 
 const deleteCollection = (id: string) => {
@@ -153,5 +166,3 @@ watch(
   }
 );
 </script>
-
-<style></style>

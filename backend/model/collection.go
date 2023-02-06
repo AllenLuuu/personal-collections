@@ -12,6 +12,7 @@ import (
 
 type Collection struct {
 	Id      string   `json:"id" bson:"_id,omitempty"`
+	Starred bool     `json:"starred" bson:"starred"`
 	Content string   `json:"content" bson:"content"`
 	Author  string   `json:"author" bson:"author"`
 	Book    string   `json:"book" bson:"book"`
@@ -32,6 +33,17 @@ func GetCollectionsByIDs(ids []string) ([]Collection, error) {
 		oids = append(oids, oid)
 	}
 	cursor, err := database.DB.Collection(database.COL_Collection).Find(context.TODO(), M{"_id": M{"$in": oids}})
+	if err != nil {
+		return nil, err
+	}
+	cursor.All(context.TODO(), &collections)
+	cursor.Close(context.TODO())
+	return collections, nil
+}
+
+func getStarredCollections() ([]Collection, error) {
+	var collections []Collection
+	cursor, err := database.DB.Collection(database.COL_Collection).Find(context.TODO(), M{"starred": true})
 	if err != nil {
 		return nil, err
 	}
@@ -87,6 +99,7 @@ func (c *Collection) Create() error {
 func (c *Collection) Update() error {
 	oid, _ := primitive.ObjectIDFromHex(c.Id)
 	_, err := database.DB.Collection(database.COL_Collection).UpdateOne(context.TODO(), M{"_id": oid}, M{"$set": D{
+		{Key: "starred", Value: c.Starred},
 		{Key: "content", Value: c.Content},
 		{Key: "author", Value: c.Author},
 		{Key: "book", Value: c.Book},
