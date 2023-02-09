@@ -49,7 +49,7 @@ const hideSider = ref(false);
   background-color: transparent;
 }
 .content {
-  padding: 10px 20px;
+  padding: 10px 80px 10px 20px;
 }
 .layout {
   height: 100vh;
