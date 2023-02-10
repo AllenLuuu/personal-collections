@@ -106,7 +106,7 @@ function computeType(index: number) {
 }
 
 function copy() {
-  navigator.clipboard.writeText(props.content + "\n——" + source.value);
+  navigator.clipboard.writeText(props.content + "\n" + source.value);
   message.success("已复制到剪贴板");
 }
 </script>
