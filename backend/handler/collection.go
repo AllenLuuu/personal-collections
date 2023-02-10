@@ -51,7 +51,7 @@ func GetCollectionByID(c *gin.Context) {
 	err = collection.GetByID(req.ID)
 	if err != nil {
 		logrus.Info(err.Error())
-		resp.ERR(c, resp.E_DB_SEARCH_ERROR, "数据库错误")
+		resp.ERR(c, resp.E_DB_SEARCH_ERROR, "此摘录不存在")
 		return
 	}
 	resp.JSON(c, collection)

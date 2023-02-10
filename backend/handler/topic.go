@@ -49,7 +49,7 @@ func GetTopicByID(c *gin.Context) {
 	err = topic.GetByID(req.ID)
 	if err != nil {
 		logrus.Info(err.Error())
-		resp.ERR(c, resp.E_DB_SEARCH_ERROR, "数据库错误")
+		resp.ERR(c, resp.E_DB_SEARCH_ERROR, "此专题不存在")
 		return
 	}
 	resp.JSON(c, topic)
