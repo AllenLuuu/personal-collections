@@ -35,6 +35,11 @@ func configRoutes(e *gin.Engine) {
 	collection_u.POST("/get", GetCollectionByID)
 	collection_u.POST("/get-many", GetCollectionsByIDs)
 
+	topic_u := root.Group("/topic")
+	topic_u.POST("/list", ListTopics)
+	topic_u.POST("/get", GetTopicByID)
+	topic_u.POST("/get-collections", GetTopicCollections)
+
 	// 以下是需要登录的路由
 	admin := root.Group("/admin", middleware.CheckUserLoggedIn)
 	collection_a := admin.Group("/collection")
@@ -42,4 +47,11 @@ func configRoutes(e *gin.Engine) {
 	collection_a.POST("/update", UpdateCollection)
 	collection_a.POST("/delete", DeleteCollection)
 	collection_a.POST("/list-starred", ListStarredCollections)
+
+	topic_a := admin.Group("/topic")
+	topic_a.POST("/insert", InsertTopic)
+	topic_a.POST("/update", UpdateTopic)
+	topic_a.POST("/delete", DeleteTopic)
+	topic_a.POST("/add-collection", AddTopicCollection)
+	topic_a.POST("/remove-collection", RemoveTopicCollection)
 }
