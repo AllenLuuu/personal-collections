@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import { SearchRound } from "@vicons/material";
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { useColorModeStore } from "../store/ColorMode";
 import { useFilterStore } from "../store/Filter";
 
@@ -74,7 +74,7 @@ function filter() {
 
 <style scoped>
 .button {
-  position: fixed;
+  position: absolute;
   bottom: 20px;
   right: 20px;
   width: 44px;

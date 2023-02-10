@@ -11,6 +11,8 @@ declare module '@vue/runtime-core' {
     Collection: typeof import('./src/components/Collection.vue')['default']
     CollectionPage: typeof import('./src/components/CollectionPage.vue')['default']
     CollectionSelector: typeof import('./src/components/CollectionSelector.vue')['default']
+    ExportButtion: typeof import('./src/components/ExportButtion.vue')['default']
+    ExportButton: typeof import('./src/components/ExportButton.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     NBlockquote: typeof import('naive-ui')['NBlockquote']
     NButton: typeof import('naive-ui')['NButton']

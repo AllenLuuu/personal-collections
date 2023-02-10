@@ -29,7 +29,6 @@
       </NLayoutContent>
     </NLayout>
   </NLayout>
-  <SearchButton />
   <NModal v-model:show="showModal">
     <NCard style="max-width: 600px">
       <NSpace size="large" vertical>

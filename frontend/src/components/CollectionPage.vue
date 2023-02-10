@@ -29,6 +29,8 @@
       @update-page="handelPageChange"
     />
   </NSpace>
+  <ExportButton :collections="collections" />
+  <SearchButton />
 </template>
 
 <script setup lang="ts">
@@ -42,6 +44,8 @@ import {
 import { useFilterStore } from "../store/Filter";
 import Colletion from "./Collection.vue";
 import TopicBar from "./TopicBar.vue";
+import ExportButton from "./ExportButton.vue";
+import SearchButton from "./SearchButton.vue";
 
 const filterStore = useFilterStore();
 const dialog = useDialog();

@@ -22,7 +22,6 @@
       </NLayoutContent>
     </NLayout>
   </NLayout>
-  <SearchButton />
 </template>
 
 <script setup lang="ts">

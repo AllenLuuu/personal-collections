@@ -64,3 +64,16 @@ export const getCollections = async (ids: string[]): Promise<CollectionType[]> =
     throw error;
   }
 }
+
+export const exportCollections = async (collections: CollectionType[]): Promise<void> => {
+  try {
+    await new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 1000);
+    });
+    return;
+  } catch (error) {
+    throw error;
+  }
+}
