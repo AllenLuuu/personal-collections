@@ -1,21 +1,23 @@
 <template>
-  <NButton
-    text
-    class="button"
-    :style="{
-      backgroundColor: colorMode.isDarkMode ? '#48484e' : '#FFFFF7',
-    }"
-    :focusable="false"
-    :bordered="false"
-    @click="handleExport"
-    :loading="loading"
-  >
-    <template #icon>
-      <NIcon size="30">
-        <FileDownloadRound />
-      </NIcon>
-    </template>
-  </NButton>
+  <NPopselect :delay="500" v-model:value="exportType" :options="exportOptions" trigger="hover">
+    <NButton
+      text
+      class="button"
+      :style="{
+        backgroundColor: colorMode.isDarkMode ? '#48484e' : '#FFFFF7',
+      }"
+      :focusable="false"
+      :bordered="false"
+      @click="handleExport"
+      :loading="loading"
+    >
+      <template #icon>
+        <NIcon size="30">
+          <FileDownloadRound />
+        </NIcon>
+      </template>
+    </NButton>
+  </NPopselect>
 </template>
 
 <script setup lang="ts">
@@ -31,10 +33,15 @@ const props = defineProps<{
 }>();
 
 const loading = ref(false);
+const exportType = ref<"docx" | "md">("docx");
+const exportOptions = [
+  { label: "导出为 Word", value: "docx" },
+  { label: "导出为 Markdown", value: "md" },
+];
 const handleExport = async () => {
-    loading.value = true;
-    await exportCollections(props.collections);
-    loading.value = false;
+  loading.value = true;
+  await exportCollections(props.collections, exportType.value);
+  loading.value = false;
 };
 </script>
 

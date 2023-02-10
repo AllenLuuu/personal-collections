@@ -1,3 +1,4 @@
+import { exportToDocx, exportToMarkdown } from "./export";
 import { post } from "./request";
 
 export const insertCollection = async (collection: Omit<CollectionType, "id">): Promise<CollectionType> => {
@@ -65,13 +66,13 @@ export const getCollections = async (ids: string[]): Promise<CollectionType[]> =
   }
 }
 
-export const exportCollections = async (collections: CollectionType[]): Promise<void> => {
+export const exportCollections = async (collections: CollectionType[], type?: "docx" | "md"): Promise<void> => {
   try {
-    await new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, 1000);
-    });
+    if (type === "md") {
+      exportToMarkdown(collections);
+    } else {
+      exportToDocx(collections);
+    }
     return;
   } catch (error) {
     throw error;
