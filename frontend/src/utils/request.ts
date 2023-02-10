@@ -23,7 +23,7 @@ const request = async <T>(
     credentials: "include",
   });
   if (response.ok) {
-    const res = await response.json() as ResponseType<T>;
+    const res = (await response.json()) as ResponseType<T>;
     if (res.code === 0) {
       return res.data;
     } else {
@@ -40,11 +40,15 @@ export default request;
 
 export const post = async <T>(
   url: string,
-  data: object,
+  data?: object,
   task?: string
 ): Promise<T> => {
-  return await request(url, {
-    method: "POST",
-    body: JSON.stringify(data),
-  }, task);
-}
+  return await request(
+    url,
+    {
+      method: "POST",
+      body: data ? JSON.stringify(data) : undefined,
+    },
+    task
+  );
+};
