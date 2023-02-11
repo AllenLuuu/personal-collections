@@ -26,6 +26,7 @@
           <NFormItem label="标签">
             <n-dynamic-tags v-model:value="target.tags" />
           </NFormItem>
+          <NCheckbox v-model:checked="target.starred"> 加入精选 </NCheckbox>
           <NSpace justify="end">
             <NButton v-if="!author && !book" @click="cancel"> 取消 </NButton>
             <NButton v-else @click="cancel" type="error" ghost> 结束 </NButton>
@@ -43,7 +44,11 @@ import { useMessage } from "naive-ui";
 import { onMounted, ref } from "vue";
 import Header from "../../components/Header.vue";
 import { useRouter } from "vue-router";
-import { getCollection, insertCollection, updateCollection } from "../../utils/collection";
+import {
+  getCollection,
+  insertCollection,
+  updateCollection,
+} from "../../utils/collection";
 
 const router = useRouter();
 const message = useMessage();
@@ -73,6 +78,7 @@ const target = ref<CollectionType>({
   author: "",
   book: "",
   tags: [],
+  starred: false,
 });
 
 const rules: FormRules = {
@@ -103,6 +109,7 @@ function submit() {
           author: target.value.author,
           book: target.value.book,
           tags: target.value.tags,
+          starred: target.value.starred,
         });
         if (success) {
           message.success("提交成功");
@@ -113,6 +120,7 @@ function submit() {
             target.value.author = props.author ?? "";
             target.value.book = props.book ?? "";
             target.value.tags = [];
+            target.value.starred = false;
           }
         }
       }

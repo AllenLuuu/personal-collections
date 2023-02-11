@@ -10,10 +10,11 @@ import (
 
 func InsertCollection(c *gin.Context) {
 	var req struct {
-		Content string `json:"content"`
-		Author  string `json:"author"`
-		Book	string `json:"book"`
-		Tags	[]string `json:"tags"`
+		Starred bool     `json:"starred"`
+		Content string   `json:"content"`
+		Author  string   `json:"author"`
+		Book    string   `json:"book"`
+		Tags    []string `json:"tags"`
 	}
 	var collection model.Collection
 	err := c.ShouldBindJSON(&req)
@@ -23,6 +24,7 @@ func InsertCollection(c *gin.Context) {
 		return
 	}
 
+	collection.Starred = req.Starred
 	collection.Content = req.Content
 	collection.Author = req.Author
 	collection.Book = req.Book
