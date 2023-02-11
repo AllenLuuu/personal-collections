@@ -111,13 +111,15 @@ const batchConfig = reactive({
   book: "",
 });
 const handleAddCollection = () => {
-  if (addSchema.value === "one") {
-    router.push("/admin/add");
-  } else {
-    router.push(
-      `/admin/add?author=${batchConfig.author}&book=${batchConfig.book}`
-    );
+  const query: any = {};
+  if (addSchema.value === "batch") {
+    query.author = batchConfig.author;
+    query.book = batchConfig.book;
   }
+  if (props.tid) {
+    query.tid = props.tid;
+  }
+  router.push({ path: "/admin/add", query });
 };
 
 const editCollection = (id: string) => {

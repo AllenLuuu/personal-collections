@@ -36,6 +36,7 @@ const routes: RouteRecordRaw[] = [
     props: (route) => ({
       author: route.query.author,
       book: route.query.book,
+      tid: route.query.tid,
     }),
   },
   {

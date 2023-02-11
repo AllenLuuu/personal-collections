@@ -49,6 +49,7 @@ import {
   insertCollection,
   updateCollection,
 } from "../../utils/collection";
+import { addCollectionToTopic } from "../../utils/topic";
 
 const router = useRouter();
 const message = useMessage();
@@ -57,6 +58,7 @@ const props = defineProps<{
   cid?: string;
   author?: string;
   book?: string;
+  tid?: string;
 }>();
 
 onMounted(() => {
@@ -113,6 +115,7 @@ function submit() {
         });
         if (success) {
           message.success("提交成功");
+          if (props.tid) addCollectionToTopic(props.tid, success.id);
           if (!props.author && !props.book) {
             router.back();
           } else {
