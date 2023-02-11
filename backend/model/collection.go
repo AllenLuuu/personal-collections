@@ -26,7 +26,7 @@ func (c *Collection) GetByID(id string) error {
 }
 
 func GetCollectionsByIDs(ids []string) ([]Collection, error) {
-	var collections []Collection
+	collections := []Collection{}
 	var oids []primitive.ObjectID
 	for _, id := range ids {
 		oid, _ := primitive.ObjectIDFromHex(id)
@@ -49,7 +49,7 @@ type Filter struct {
 }
 
 func ListStarredCollections(filter Filter) ([]Collection, error) {
-	var collections []Collection
+	collections := []Collection{}
 	keywords := strings.Split(filter.Keyword, " ")
 	for i, keyword := range keywords {
 		keywords[i] = fmt.Sprintf("(?=.*%s)", keyword)
@@ -78,7 +78,7 @@ func ListStarredCollections(filter Filter) ([]Collection, error) {
 }
 
 func ListCollections(filter Filter) ([]Collection, error) {
-	var collections []Collection
+	collections := []Collection{}
 	keywords := strings.Split(filter.Keyword, " ")
 	for i, keyword := range keywords {
 		keywords[i] = fmt.Sprintf("(?=.*%s)", keyword)

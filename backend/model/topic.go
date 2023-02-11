@@ -24,7 +24,7 @@ func (t *Topic) GetByID(id string) error {
 }
 
 func (t *Topic) GetCollections(filter Filter) ([]Collection, error) {
-	var collections []Collection
+	collections := []Collection{}
 	keywords := strings.Split(filter.Keyword, " ")
 	for i, keyword := range keywords {
 		keywords[i] = fmt.Sprintf("(?=.*%s)", keyword)
@@ -53,7 +53,7 @@ func (t *Topic) GetCollections(filter Filter) ([]Collection, error) {
 }
 
 func ListTopics() ([]Topic, error) {
-	var topics []Topic
+	var topics []Topic = []Topic{}
 	cursor, err := database.DB.Collection(database.COL_Topic).Find(context.TODO(), M{})
 	if err != nil {
 		return nil, err
@@ -90,7 +90,7 @@ func (t *Topic) AddCollection(cid string) error {
 
 func (t *Topic) RemoveCollection(cid string) error {
 	oid, _ := primitive.ObjectIDFromHex(t.Id)
-	var collections []string
+	collections := []string{}
 	for _, c := range t.Collctions {
 		if c != cid {
 			collections = append(collections, c)
