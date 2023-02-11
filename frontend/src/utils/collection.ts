@@ -32,22 +32,21 @@ export const listCollections = async (filter: Filter, tid?: string): Promise<Col
   if (!tid) {
     try {
       const res = await post<CollectionType[]>("/collection/list", filter, "获取摘录列表");
-      return res;
+      return res.reverse();
     } catch (error) {
       throw error;
     }
   } else if (tid === "stars") {
     try {
       const res = await post<CollectionType[]>("/admin/collection/list-starred", filter, "获取摘录列表");
-      return res;
+      return res.reverse();
     } catch (error) {
       throw error;
     }
   } else {
     try {
       const res = await post<CollectionType[]>("/topic/get-collections", { tid, filter }, "获取摘录列表");
-      console.log(res);
-      return res;
+      return res.reverse();
     } catch (error) {
       throw error;
     }
@@ -66,7 +65,7 @@ export const getCollection = async (id: string): Promise<CollectionType> => {
 export const getCollections = async (ids: string[]): Promise<CollectionType[]> => {
   try {
     const res = await post<CollectionType[]>("/collection/get-many", { ids }, "获取摘录列表");
-    return res;
+    return res.reverse();
   } catch (error) {
     throw error;
   }
