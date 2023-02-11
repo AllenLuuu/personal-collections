@@ -10,6 +10,7 @@
 import type { MenuOption } from "naive-ui";
 import { reactive, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { listTopics } from "../utils/topic";
 
 const router = useRouter();
 
@@ -46,20 +47,22 @@ const menuOptions = reactive<MenuOption[]>([
 ]);
 
 const setTopics = async () => {
-  const topics: TopicType[] = [
-    {
-      id: "test-topic",
-      title: "test topic 测试专题",
-      detail: "test topic 测试专题",
-      collections: [],
-    },
-  ];
+  const topics: TopicType[] = await listTopics();
   menuOptions[1].children = topics.map((topic) => {
     return {
       label: topic.title,
       key: topic.id,
     };
   });
+  if (topics.length === 0) {
+    menuOptions[1].children = [
+      {
+        label: "敬请期待...",
+        key: "none",
+        disabled: true,
+      },
+    ];
+  }
 };
 
 const handleMenuClick = (key: string) => {

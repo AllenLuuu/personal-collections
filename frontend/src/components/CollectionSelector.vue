@@ -31,7 +31,7 @@
       </n-form>
       <NSpace justify="end">
         <NButton :focusable="false" @click="clearFilter">清除筛选</NButton>
-        <NButton type="primary" @click="filter">筛选</NButton>
+        <NButton type="primary" @click="getCollections">筛选</NButton>
       </NSpace>
 
       <n-p> 已选中 {{ selectedCIds.length }} 条 </n-p>
@@ -57,6 +57,7 @@
 <script setup lang="ts">
 import { DataTableColumns, NEllipsis, NButton } from "naive-ui";
 import { onMounted, ref, h } from "vue";
+import { listCollections } from "../utils/collection";
 
 const props = defineProps<{
   show: boolean;
@@ -75,15 +76,7 @@ onMounted(() => {
 });
 
 async function getCollections() {
-  for (let i = 0; i < 1000; i++) {
-    collections.value.push({
-      id: i.toString(),
-      content: "content" + i,
-      author: "author" + i,
-      book: "book" + i,
-      tags: ["tag1", "tag2"],
-    });
-  }
+  collections.value = await listCollections(filterModel.value);
 }
 
 // 筛选部分
@@ -104,10 +97,7 @@ function clearFilter() {
   filterModel.value.author = "";
   filterModel.value.book = "";
   filterModel.value.tags = [];
-}
-
-function filter() {
-  console.log(filterModel.value);
+  getCollections();
 }
 
 // 摘录表部分

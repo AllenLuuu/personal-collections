@@ -41,15 +41,18 @@ import {
   deleteCollection as deleteC,
   updateCollection,
 } from "../utils/collection";
+import { deleteTopic as deleteT, getTopic } from "../utils/topic";
 import { useFilterStore } from "../store/Filter";
 import Colletion from "./Collection.vue";
 import TopicBar from "./TopicBar.vue";
 import ExportButton from "./ExportButton.vue";
 import SearchButton from "./SearchButton.vue";
+import { useRouter } from "vue-router";
 
 const filterStore = useFilterStore();
 const dialog = useDialog();
 const message = useMessage();
+const router = useRouter();
 
 const props = defineProps<{
   tid?: string;
@@ -72,8 +75,9 @@ const setTopic = async (tid: string): Promise<void> => {
     topicInfo.title = "精选摘录";
     topicInfo.detail = "将被用于主页的每日一句展示";
   } else {
-    topicInfo.title = "test topic 测试专题";
-    topicInfo.detail = "test topic 测试专题";
+    const topic = await getTopic(tid);
+    topicInfo.title = topic.title;
+    topicInfo.detail = topic.detail;
   }
 };
 
@@ -83,8 +87,11 @@ const deleteTopic = (tid: string) => {
     content: "确定要删除这个专题吗？",
     positiveText: "确定",
     negativeText: "取消",
-    onPositiveClick: () => {
+    onPositiveClick: async () => {
+      await deleteT(tid);
       message.success("删除成功");
+      await router.push("/admin");
+      router.go(0);
     },
   });
 };
@@ -92,7 +99,11 @@ const deleteTopic = (tid: string) => {
 // collections
 const collections = ref<CollectionType[]>([]);
 
-const setCollections = async (page: number, filter: Filter, tid?: string): Promise<void> => {
+const setCollections = async (
+  page: number,
+  filter: Filter,
+  tid?: string
+): Promise<void> => {
   collections.value = await listCollections(filter, tid);
   handelPageChange(page);
 };
@@ -128,7 +139,9 @@ const pagination = reactive({
   page: 1,
   pageSize: 10,
 });
-const pageCount = computed(() => Math.ceil(collections.value.length / pagination.pageSize));
+const pageCount = computed(() =>
+  Math.ceil(collections.value.length / pagination.pageSize)
+);
 
 const collectionsInPage = ref<CollectionType[]>([]);
 

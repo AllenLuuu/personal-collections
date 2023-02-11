@@ -44,7 +44,13 @@ export const listCollections = async (filter: Filter, tid?: string): Promise<Col
       throw error;
     }
   } else {
-    return [];
+    try {
+      const res = await post<CollectionType[]>("/topic/get-collections", { tid, filter }, "获取摘录列表");
+      console.log(res);
+      return res;
+    } catch (error) {
+      throw error;
+    }
   }
 }
 

@@ -25,12 +25,14 @@ func (t *Topic) GetByID(id string) error {
 
 func (t *Topic) GetCollections(filter Filter) ([]Collection, error) {
 	collections := []Collection{}
+
+	// construct filter map
 	keywords := strings.Split(filter.Keyword, " ")
 	for i, keyword := range keywords {
 		keywords[i] = fmt.Sprintf("(?=.*%s)", keyword)
 	}
 	regexpStr := fmt.Sprintf("%s.*", strings.Join(keywords, ""))
-	var filterMap = M{"starred": true}
+	var filterMap = M{}
 	if filter.Keyword != "" {
 		filterMap["content"] = M{"$regex": regexpStr}
 	}
@@ -43,7 +45,15 @@ func (t *Topic) GetCollections(filter Filter) ([]Collection, error) {
 	if len(filter.Tags) != 0 {
 		filterMap["tags"] = M{"$elemMatch": M{"$in": filter.Tags}}
 	}
-	cursor, err := database.DB.Collection(database.COL_Collection).Find(context.TODO(), M{"_id": M{"$in": t.Collctions}, "$and": []M{filterMap}})
+
+	// convert collection ids to object ids
+	oids := []primitive.ObjectID{}
+	for _, id := range t.Collctions {
+		oid, _ := primitive.ObjectIDFromHex(id)
+		oids = append(oids, oid)
+	}
+
+	cursor, err := database.DB.Collection(database.COL_Collection).Find(context.TODO(), M{"_id": M{"$in": oids}, "$and": []M{filterMap}})
 	if err != nil {
 		return nil, err
 	}

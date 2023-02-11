@@ -40,7 +40,12 @@
     </NLayout>
   </NLayout>
 
-  <CollectionSelector :show="showCollectionSelector" :selected="target.collections" @close="showCollectionSelector = false" @confirm="handleSelect"/>
+  <CollectionSelector
+    :show="showCollectionSelector"
+    :selected="target.collections"
+    @close="showCollectionSelector = false"
+    @confirm="handleSelect"
+  />
 </template>
 
 <script setup lang="ts">
@@ -50,6 +55,8 @@ import { onMounted, ref, h, watch } from "vue";
 import Header from "../../components/Header.vue";
 import CollectionSelector from "../../components/CollectionSelector.vue";
 import { useRouter } from "vue-router";
+import { getCollections } from "../../utils/collection";
+import { createTopic, getTopic, updateTopic } from "../../utils/topic";
 
 const router = useRouter();
 const message = useMessage();
@@ -61,6 +68,7 @@ const props = defineProps<{
 onMounted(async () => {
   if (props.tid) {
     await setTopic(props.tid);
+    console.log(target.value);
     setCollections(target.value.collections);
   }
 });
@@ -88,12 +96,7 @@ const rules: FormRules = {
 };
 
 async function setTopic(tid: string) {
-  target.value = {
-    id: tid,
-    title: "test",
-    detail: "test",
-    collections: [],
-  };
+  target.value = await getTopic(tid);
 }
 
 const tableColumns: DataTableColumns = [
@@ -179,7 +182,10 @@ const tableColumns: DataTableColumns = [
         {
           type: "error",
           onClick: () => {
-            console.log(row);
+            target.value.collections = target.value.collections.filter(
+              (cid) => cid !== row.id
+            );
+            setCollections(target.value.collections);
           },
         },
         { default: () => "删除" }
@@ -189,47 +195,19 @@ const tableColumns: DataTableColumns = [
 ];
 
 const selectedCollections = ref<CollectionType[]>([]);
-watch(
-  () => target.value.collections,
-  (newVal) => {
-    setCollections(newVal);
-  }
-);
 async function setCollections(cids: string[]) {
-  selectedCollections.value = [
-    {
-      id: "1",
-      content: "test ".repeat(100),
-      author: "test",
-      book: "test",
-      tags: ["test", "test"],
-    },
-    {
-      id: "2",
-      content: "test",
-      author: "test ".repeat(5),
-      book: "test",
-      tags: ["test", "test"],
-    },
-    {
-      id: "3",
-      content: "test",
-      author: "test",
-      book: "test",
-      tags: ["test", "test"],
-    },
-  ];
+  selectedCollections.value = await getCollections(cids);
 }
 
 const pagination = ref({
-  pageSize: 10,
+  pageSize: 5,
 });
 
 const showCollectionSelector = ref(false);
 
 const handleSelect = (collections: string[]) => {
   target.value.collections = collections;
-  console.log(target.value);
+  setCollections(collections);
 };
 
 function cancel() {
@@ -237,8 +215,23 @@ function cancel() {
 }
 
 function submit() {
-  formRef.value?.validate((errors) => {
+  formRef.value?.validate(async (errors) => {
     if (!errors) {
+      if (props.tid) {
+        const success = await updateTopic(target.value);
+        if (!success) {
+          return;
+        }
+      } else {
+        const success = await createTopic({
+          title: target.value.title,
+          detail: target.value.detail,
+          collections: target.value.collections,
+        });
+        if (!success) {
+          return;
+        }
+      }
       message.success("发布成功");
       router.back();
     }
