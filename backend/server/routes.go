@@ -34,6 +34,7 @@ func configRoutes(e *gin.Engine) {
 	collection_u.POST("/list", ListCollections)
 	collection_u.POST("/get", GetCollectionByID)
 	collection_u.POST("/get-many", GetCollectionsByIDs)
+	collection_u.GET("/starred/rand-one", RandOneStarredCollection)
 
 	topic_u := root.Group("/topic")
 	topic_u.POST("/list", ListTopics)

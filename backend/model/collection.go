@@ -41,6 +41,21 @@ func GetCollectionsByIDs(ids []string) ([]Collection, error) {
 	return collections, nil
 }
 
+func RandOneStarredCollection() (Collection, error) {
+	var collection Collection
+	cursor, err := database.DB.Collection(database.COL_Collection).Aggregate(context.TODO(), []M{
+		{"$match": M{"starred": true}},
+		{"$sample": M{"size": 1}},
+	})
+	if err != nil {
+		return collection, err
+	}
+	cursor.Next(context.TODO())
+	cursor.Decode(&collection)
+	cursor.Close(context.TODO())
+	return collection, nil
+}
+
 type Filter struct {
 	Keyword string   `json:"keyword"`
 	Author  string   `json:"author"`
