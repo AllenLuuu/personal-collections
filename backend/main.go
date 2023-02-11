@@ -38,7 +38,7 @@ func main() {
 	r := gin.Default()
 	Do(server.Init(r))
 
-	err := r.Run(fmt.Sprintf("%s:%d", config.Server.Host, config.Server.Port))
+	err := r.Run(fmt.Sprintf(":%d", config.Server.Port))
 	if err != nil {
 		logrus.Errorf("Error While Running Server: %s", err.Error())
 		os.Exit(-1)

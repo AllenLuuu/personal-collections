@@ -14,7 +14,7 @@ func ping(c *gin.Context) {
 }
 
 func configRoutes(e *gin.Engine) {
-	e.GET("/ping", ping)
+	e.GET("/api/ping", ping)
 
 	cors_cfg := cors.Config{
 		AllowOrigins:     []string{"https://allenluuu.com", "http://127.0.0.1:5173", "http://localhost:5173"},
@@ -26,7 +26,7 @@ func configRoutes(e *gin.Engine) {
 	}
 	e.Use(cors.New(cors_cfg))
 
-	root := e.Group("/", session.SessionMiddleware, middleware.Response)
+	root := e.Group("/api", session.SessionMiddleware, middleware.Response)
 	root.POST("/login", Login)
 
 	// 以下是不需要登录的路由

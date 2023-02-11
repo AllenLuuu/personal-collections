@@ -8,7 +8,7 @@ interface ResponseType<T> {
   data: T;
 }
 
-const prefix = "http://localhost:3000";
+const prefix = "/api";
 const request = async <T>(
   url: string,
   options: RequestInit,
