@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import { computed, reactive, watch, ref, onMounted } from "vue";
-import { useDialog, useMessage } from "naive-ui";
+import { LayoutInst, useDialog, useMessage } from "naive-ui";
 import {
   listCollections,
   deleteCollection as deleteC,
@@ -55,6 +55,7 @@ const message = useMessage();
 const router = useRouter();
 
 const props = defineProps<{
+  containerRef: LayoutInst;
   tid?: string;
   showAdminButtons?: boolean;
 }>();
@@ -151,10 +152,20 @@ function handelPageChange(page: number) {
   } else if (page > pageCount.value) {
     page = pageCount.value;
   }
+  if (page !== pagination.page) {
+    scrollToTop();
+  }
   pagination.page = page;
   const start = (page - 1) * pagination.pageSize;
   const end = start + pagination.pageSize;
   collectionsInPage.value = collections.value.slice(start, end);
+}
+
+function scrollToTop() {
+  props.containerRef.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
 }
 
 // global
@@ -174,6 +185,7 @@ watch(
       topicInfo.title = "";
       topicInfo.detail = "";
     }
+    scrollToTop();
     setCollections(1, filterStore.filter, tid);
   }
 );

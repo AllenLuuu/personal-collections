@@ -15,9 +15,9 @@
       >
         <SideMenu v-model:menuValue="menuValue" />
       </NLayoutSider>
-      <NLayoutContent :native-scrollbar="false">
+      <NLayoutContent ref="contentRef" :native-scrollbar="false">
         <div class="content">
-          <CollectionPage :tid="tid" />
+          <CollectionPage :container-ref="contentRef!" :tid="tid" />
         </div>
       </NLayoutContent>
     </NLayout>
@@ -27,6 +27,7 @@
 <script setup lang="ts">
 import Header from "../components/Header.vue";
 import { ref, onMounted } from "vue";
+import { LayoutInst } from "naive-ui";
 import CollectionPage from "../components/CollectionPage.vue";
 import SideMenu from "../components/SideMenu.vue";
 
@@ -41,6 +42,8 @@ onMounted(async () => {
 const menuValue = ref<string>("all");
 
 const hideSider = ref(false);
+
+const contentRef = ref<LayoutInst | null>(null);
 </script>
 
 <style scoped>

@@ -16,10 +16,11 @@
         <SideMenu v-model:menuValue="menuValue" is-admin />
         <AddButton @click="handleAddTopic" />
       </NLayoutSider>
-      <NLayoutContent :native-scrollbar="false">
+      <NLayoutContent ref="contentRef" :native-scrollbar="false">
         <div class="content">
           <AddButton :height="40" @click="showModal = true" />
           <CollectionPage
+            :container-ref="contentRef!"
             :tid="tid"
             show-admin-buttons
             @edit-topic="editTopic(tid!)"
@@ -75,6 +76,7 @@ import CollectionPage from "../../components/CollectionPage.vue";
 import AddButton from "../../components/AddButton.vue";
 import SideMenu from "../../components/SideMenu.vue";
 import { useRouter } from "vue-router";
+import { LayoutInst } from "naive-ui";
 
 const router = useRouter();
 
@@ -89,6 +91,8 @@ onMounted(async () => {
 const menuValue = ref<string>("all");
 
 const hideSider = ref(false);
+
+const contentRef = ref<LayoutInst | null>(null);
 
 const handleAddTopic = () => {
   router.push("/admin/topic/add");
