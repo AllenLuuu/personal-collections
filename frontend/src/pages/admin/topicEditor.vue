@@ -68,7 +68,6 @@ const props = defineProps<{
 onMounted(async () => {
   if (props.tid) {
     await setTopic(props.tid);
-    console.log(target.value);
     setCollections(target.value.collections);
   }
 });

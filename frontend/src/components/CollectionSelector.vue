@@ -70,8 +70,8 @@ const emit = defineEmits<{
 }>();
 
 const collections = ref<CollectionType[]>([]);
-onMounted(() => {
-  getCollections();
+onMounted(async () => {
+  await getCollections();
   selectedCIds.value = props.selected;
 });
 
