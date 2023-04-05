@@ -1,5 +1,13 @@
 <template>
-  <n-popover trigger="click">
+  <n-popover
+    :show="showFilter"
+    trigger="click"
+    :on-update:show="
+      (value) => {
+        showFilter = value;
+      }
+    "
+  >
     <template #trigger>
       <NButton
         text
@@ -48,6 +56,8 @@ import { onMounted } from "vue";
 const filterStore = useFilterStore();
 const colorMode = useColorModeStore();
 
+const showFilter = ref(false);
+
 const model = ref<{
   keyword: string;
   author: string;
@@ -76,6 +86,7 @@ function clear() {
 
 function filter() {
   filterStore.setFilter(model.value);
+  showFilter.value = false;
 }
 
 onMounted(() => {
