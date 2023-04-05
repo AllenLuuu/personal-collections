@@ -20,6 +20,11 @@
     @delete="deleteCollection(collection.id)"
     @star="starCollection(collection.id)"
   />
+  <NResult v-if="collections.length === 0 && mounted" status="404" title="没有找到相关内容" description="换个关键词搜搜吧" style="margin-top: 20vh;">
+    <template #footer>
+      <NButton @click="filterStore.clear()">清除筛选</NButton>
+    </template>
+  </NResult>
   <NSpace justify="end">
     <NPagination
       v-if="pageCount > 1"
@@ -173,11 +178,13 @@ function scrollToTop() {
 }
 
 // global
+const mounted = ref(false);
 onMounted(async () => {
   if (props.tid) {
     setTopic(props.tid);
   }
   await setCollections(1, filterStore.filter, props.tid);
+  mounted.value = true;
 });
 
 watch(

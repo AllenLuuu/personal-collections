@@ -40,9 +40,10 @@
 
 <script setup lang="ts">
 import { SearchRound } from "@vicons/material";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useColorModeStore } from "../store/ColorMode";
 import { useFilterStore } from "../store/Filter";
+import { onMounted } from "vue";
 
 const filterStore = useFilterStore();
 const colorMode = useColorModeStore();
@@ -59,17 +60,30 @@ const model = ref<{
   tags: [],
 });
 
+watch(
+  () => filterStore.filter,
+  (filter: Filter) => {
+    model.value.keyword = filter.keyword;
+    model.value.author = filter.author;
+    model.value.book = filter.book;
+    model.value.tags = filter.tags;
+  }
+);
+
 function clear() {
-  model.value.keyword = "";
-  model.value.author = "";
-  model.value.book = "";
-  model.value.tags = [];
   filterStore.clear();
 }
 
 function filter() {
   filterStore.setFilter(model.value);
 }
+
+onMounted(() => {
+  model.value.keyword = filterStore.filter.keyword;
+  model.value.author = filterStore.filter.author;
+  model.value.book = filterStore.filter.book;
+  model.value.tags = filterStore.filter.tags;
+});
 </script>
 
 <style scoped>
