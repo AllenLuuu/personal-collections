@@ -1,6 +1,6 @@
 <template>
   <NMenu
-    :value="menuValue"
+    :value="router.currentRoute.value.params.tid as string ?? 'all'"
     :options="menuOptions"
     @update-value="handleMenuClick"
   />
@@ -8,20 +8,19 @@
 
 <script setup lang="ts">
 import type { MenuOption } from "naive-ui";
-import { reactive, onMounted } from "vue";
+import { reactive, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import { listTopics } from "../utils/topic";
 
 const router = useRouter();
 
-const props = defineProps<{
-  menuValue: string;
-  isAdmin?: boolean;
-}>();
+const isAdmin = computed(() => {
+  return router.currentRoute.value.path.startsWith("/admin");
+});
 
 onMounted(async () => {
   await setTopics();
-  if (props.isAdmin) {
+  if (isAdmin.value) {
     menuOptions.push({
       label: "精选摘录",
       key: "stars",
@@ -67,9 +66,9 @@ const setTopics = async () => {
 
 const handleMenuClick = (key: string) => {
   if (key === "all") {
-    router.push({ path: `${props.isAdmin ? "/admin" : ""}/` });
+    router.push({ path: `${isAdmin.value ? "/admin" : ""}/` });
   } else {
-    router.push({ path: `${props.isAdmin ? "/admin" : ""}/${key}` });
+    router.push({ path: `${isAdmin.value ? "/admin" : ""}/${key}` });
   }
   emit("update:menuValue", key);
 };
