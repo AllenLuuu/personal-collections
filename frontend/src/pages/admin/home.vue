@@ -3,7 +3,7 @@
     <NLayoutHeader bordered style="height: 80px">
       <Header suffix="管理端"></Header>
     </NLayoutHeader>
-    <NLayout has-sider position="absolute" style="top: 80px">
+    <NLayout id="main-content" has-sider position="absolute" style="top: 80px">
       <NLayoutSider
         collapse-mode="width"
         :show-collapsed-content="false"
@@ -13,7 +13,7 @@
         :bordered="!hideSider"
         :class="hideSider ? 'transparent' : null"
       >
-        <SideMenu v-model:menuValue="menuValue" is-admin />
+        <SideMenu />
         <AddButton @click="handleAddTopic" />
       </NLayoutSider>
       <NLayoutContent ref="contentRef" :native-scrollbar="false">
@@ -71,7 +71,7 @@
 
 <script setup lang="ts">
 import Header from "../../components/Header.vue";
-import { onMounted, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import CollectionPage from "../../components/CollectionPage.vue";
 import AddButton from "../../components/AddButton.vue";
 import SideMenu from "../../components/SideMenu.vue";
@@ -83,12 +83,6 @@ const router = useRouter();
 const props = defineProps<{
   tid?: string;
 }>();
-
-onMounted(async () => {
-  menuValue.value = props.tid ?? "all";
-});
-
-const menuValue = ref<string>("all");
 
 const hideSider = ref(false);
 

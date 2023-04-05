@@ -1,10 +1,19 @@
 <template>
   <NLayout class="layout">
-    <NLayoutHeader bordered style="height: 80px">
+    <NLayoutHeader
+      bordered
+      :style="{ height: media.isMobile ? '68.5px' : '80px' }"
+    >
       <Header></Header>
     </NLayoutHeader>
-    <NLayout has-sider position="absolute" style="top: 80px">
+    <NLayout
+      id="main-content"
+      has-sider
+      position="absolute"
+      :style="{ top: media.isMobile ? '68.5px' : '80px' }"
+    >
       <NLayoutSider
+        v-if="!media.isMobile"
         collapse-mode="width"
         :show-collapsed-content="false"
         :collapsed-width="20"
@@ -13,7 +22,7 @@
         :bordered="!hideSider"
         :class="hideSider ? 'transparent' : null"
       >
-        <SideMenu v-model:menuValue="menuValue" />
+        <SideMenu />
       </NLayoutSider>
       <NLayoutContent ref="contentRef" :native-scrollbar="false">
         <div class="content">
@@ -26,20 +35,17 @@
 
 <script setup lang="ts">
 import Header from "../components/Header.vue";
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { LayoutInst } from "naive-ui";
 import CollectionPage from "../components/CollectionPage.vue";
 import SideMenu from "../components/SideMenu.vue";
+import { useMedia } from "../store/Media";
 
-const props = defineProps<{
+const media = useMedia();
+
+defineProps<{
   tid?: string;
 }>();
-
-onMounted(async () => {
-  menuValue.value = props.tid ?? "all";
-});
-
-const menuValue = ref<string>("all");
 
 const hideSider = ref(false);
 
@@ -51,9 +57,15 @@ const contentRef = ref<LayoutInst | null>(null);
   background-color: transparent;
 }
 .content {
-  padding: 10px 80px 10px 20px;
+  padding: 10px 20px;
 }
 .layout {
   height: 100vh;
+}
+
+@media screen and (min-width: 768px) {
+  .content {
+    padding-right: 80px;
+  }
 }
 </style>

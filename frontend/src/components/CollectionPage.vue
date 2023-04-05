@@ -25,11 +25,12 @@
       v-if="pageCount > 1"
       :page="pagination.page"
       :pageSize="pagination.pageSize"
+      :page-slot="media.isMobile ? 7 : 9"
       :page-count="pageCount"
       @update-page="handelPageChange"
     />
   </NSpace>
-  <ExportButton :collections="collections" />
+  <ExportButton v-if="!media.isMobile" :collections="collections" />
   <SearchButton />
 </template>
 
@@ -48,6 +49,9 @@ import TopicBar from "./TopicBar.vue";
 import ExportButton from "./ExportButton.vue";
 import SearchButton from "./SearchButton.vue";
 import { useRouter } from "vue-router";
+import { useMedia } from "../store/Media";
+
+const media = useMedia();
 
 const filterStore = useFilterStore();
 const dialog = useDialog();

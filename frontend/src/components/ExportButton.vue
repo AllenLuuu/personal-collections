@@ -48,7 +48,7 @@ const handleExport = async () => {
 <style scoped>
 .button {
   position: absolute;
-  bottom: 80px;
+  bottom: 105px;
   right: 20px;
   width: 44px;
   height: 44px;

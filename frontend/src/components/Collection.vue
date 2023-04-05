@@ -1,29 +1,48 @@
 <template>
   <div class="container">
-    <NCard hoverable>
+    <NCard hoverable :size="media.isMobile ? 'small' : 'medium'">
       <div class="top-line">
-        <NIcon size="40" class="left-quote" color="rgba(150, 150, 150, 0.5)">
+        <NIcon
+          :size="media.isMobile ? 25 : 40"
+          class="left-quote"
+          color="rgba(150, 150, 150, 0.5)"
+        >
           <FormatQuoteRound />
         </NIcon>
         <NSpace>
-          <StarButton v-if="showAdminButtons" :starred="starred" @click="emit('star')" />
-          <NButton v-if="showAdminButtons" text :focusable="false" @click="emit('edit')">
+          <StarButton
+            v-if="showAdminButtons"
+            :starred="starred"
+            @click="emit('star')"
+            :size="media.isMobile ? 15 : 20"
+          />
+          <NButton
+            v-if="showAdminButtons"
+            text
+            :focusable="false"
+            @click="emit('edit')"
+          >
             <template #icon>
-              <NIcon size="20" class="small-button">
+              <NIcon :size="media.isMobile ? 15 : 20" class="small-button">
                 <EditNoteOutlined />
               </NIcon>
             </template>
           </NButton>
-          <NButton v-if="showAdminButtons" text :focusable="false" @click="emit('delete')">
+          <NButton
+            v-if="showAdminButtons"
+            text
+            :focusable="false"
+            @click="emit('delete')"
+          >
             <template #icon>
-              <NIcon size="20" class="small-button">
+              <NIcon :size="media.isMobile ? 15 : 20" class="small-button">
                 <DeleteOutlined />
               </NIcon>
             </template>
           </NButton>
           <NButton text :focusable="false" @click="copy">
             <template #icon>
-              <NIcon size="20" class="small-button">
+              <NIcon :size="media.isMobile ? 15 : 20" class="small-button">
                 <ContentCopyRound />
               </NIcon>
             </template>
@@ -32,13 +51,16 @@
       </div>
       <div class="content">{{ content }}</div>
       <div class="right">
-        <NIcon size="40" color="rgba(150, 150, 150, 0.5)">
+        <NIcon
+          :size="media.isMobile ? 25 : 40"
+          color="rgba(150, 150, 150, 0.5)"
+        >
           <FormatQuoteRound />
         </NIcon>
       </div>
-      <div class="source" style="margin-top: 1.5rem">{{ source }}</div>
+      <div class="source" style="margin-top: 1rem">{{ source }}</div>
       <template #footer v-if="tags && tags.length">
-        <NDivider />
+        <NDivider class="divider" />
         <NSpace :size="[0, 5]">
           <NTag
             v-for="(tag, index) in tags"
@@ -64,7 +86,9 @@ import {
 } from "@vicons/material";
 import { useMessage } from "naive-ui";
 import StarButton from "./StarButton.vue";
+import { useMedia } from "../store/Media";
 
+const media = useMedia();
 const message = useMessage();
 
 const props = defineProps<{
@@ -144,5 +168,18 @@ function copy() {
   font-family: v-sans, v-mono, "Times New Roman", Times, serif;
   padding: 0 50px;
   white-space: pre-line;
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    padding: 0 25px;
+    font-size: medium;
+  }
+  .source {
+    font-size: medium;
+  }
+  .divider {
+    margin: 0 0 0.8rem 0;
+  }
 }
 </style>

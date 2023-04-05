@@ -75,7 +75,7 @@ function filter() {
 <style scoped>
 .button {
   position: absolute;
-  bottom: 20px;
+  bottom: 50px;
   right: 20px;
   width: 44px;
   height: 44px;
