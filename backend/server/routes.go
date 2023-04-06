@@ -17,7 +17,7 @@ func configRoutes(e *gin.Engine) {
 	e.GET("/api/ping", ping)
 
 	cors_cfg := cors.Config{
-		AllowOrigins:     []string{"https://www.allenluuu.com", "https://collections.allenluuu.com", "http://127.0.0.1:5173", "http://localhost:5173"},
+		AllowOrigins:     []string{"https://www.allenluuu.com", "https://allenluuu.com", "https://collections.allenluuu.com", "http://127.0.0.1:5173", "http://localhost:5173"},
 		AllowMethods:     []string{"GET", "POST", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type"},
 		AllowCredentials: true,
