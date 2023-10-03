@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-export const useColorModeStore = defineStore("color-mode", {
+export const useColorMode = defineStore("color-mode", {
   state: () => ({
     colorMode: "light",
   }),

@@ -14,11 +14,11 @@
 </template>
 
 <script setup lang="ts">
-import { useColorModeStore } from "./store/ColorMode";
+import { useColorMode } from "./store/ColorMode";
 import { darkTheme, GlobalThemeOverrides } from "naive-ui";
 import InterLayer from "./InterLayer.vue";
 
-const colorMode = useColorModeStore();
+const colorMode = useColorMode();
 
 const lightThemeOverrides: GlobalThemeOverrides = {
   common: {

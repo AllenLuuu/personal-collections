@@ -49,12 +49,12 @@
 <script setup lang="ts">
 import { SearchRound } from "@vicons/material";
 import { ref, watch } from "vue";
-import { useColorModeStore } from "../store/ColorMode";
+import { useColorMode } from "../store/ColorMode";
 import { useFilterStore } from "../store/Filter";
 import { onMounted } from "vue";
 
 const filterStore = useFilterStore();
-const colorMode = useColorModeStore();
+const colorMode = useColorMode();
 
 const showFilter = ref(false);
 

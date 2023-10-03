@@ -60,7 +60,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useColorModeStore } from "../store/ColorMode";
+import { useColorMode } from "../store/ColorMode";
 import {
   LightModeOutlined,
   DarkModeOutlined,
@@ -74,7 +74,7 @@ import { useMedia } from "../store/Media";
 
 const media = useMedia();
 const router = useRouter();
-const mode = useColorModeStore();
+const mode = useColorMode();
 
 defineProps<{
   suffix?: string;

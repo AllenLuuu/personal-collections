@@ -1,6 +1,12 @@
 <template>
   <div class="container">
-    <NCard hoverable :size="media.isMobile ? 'small' : 'medium'">
+    <NCard
+      :segmented="{
+        footer: 'soft',
+      }"
+      hoverable
+      size="small"
+    >
       <div class="top-line">
         <NIcon
           :size="media.isMobile ? 25 : 40"
@@ -60,7 +66,6 @@
       </div>
       <div class="source" style="margin-top: 1rem">{{ source }}</div>
       <template #footer v-if="tags && tags.length">
-        <NDivider class="divider" />
         <NSpace :size="[0, 5]">
           <NTag
             v-for="(tag, index) in tags"
@@ -87,9 +92,11 @@ import {
 import { useMessage } from "naive-ui";
 import StarButton from "./StarButton.vue";
 import { useMedia } from "../store/Media";
+import { useColorMode } from "../store/ColorMode";
 
 const media = useMedia();
 const message = useMessage();
+const colorMode = useColorMode();
 
 const props = defineProps<{
   showAdminButtons?: boolean;
@@ -111,6 +118,14 @@ const source = computed(() => {
     return `——《${props.book}》`;
   } else {
     return "";
+  }
+});
+
+const fontWeight = computed(() => {
+  if (colorMode.isDarkMode) {
+    return "normal";
+  } else {
+    return "bold";
   }
 });
 
@@ -159,13 +174,13 @@ function copy() {
 .source {
   text-align: right;
   font-size: 1.3rem;
-  font-weight: bold;
-  font-family: v-sans, v-mono, "Times New Roman", Times, serif;
+  font-weight: v-bind(fontWeight);
+  font-family: v-sans, serif;
 }
 .content {
   font-size: 1.3rem;
-  font-weight: bold;
-  font-family: v-sans, v-mono, "Times New Roman", Times, serif;
+  font-weight: v-bind(fontWeight);
+  font-family: v-sans, serif;
   padding: 0 50px;
   white-space: pre-line;
 }
@@ -174,12 +189,11 @@ function copy() {
   .content {
     padding: 0 25px;
     font-size: medium;
+    font-weight: v-bind(fontWeight);
   }
   .source {
     font-size: medium;
-  }
-  .divider {
-    margin: 0 0 0.8rem 0;
+    font-weight: v-bind(fontWeight);
   }
 }
 </style>

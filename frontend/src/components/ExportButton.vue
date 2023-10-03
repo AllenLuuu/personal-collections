@@ -23,10 +23,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { FileDownloadRound } from "@vicons/material";
-import { useColorModeStore } from "../store/ColorMode";
+import { useColorMode } from "../store/ColorMode";
 import { exportCollections } from "../utils/collection";
 
-const colorMode = useColorModeStore();
+const colorMode = useColorMode();
 
 const props = defineProps<{
   collections: CollectionType[];

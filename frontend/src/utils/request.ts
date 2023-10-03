@@ -8,10 +8,7 @@ interface ResponseType<T> {
   data: T;
 }
 
-// development
-// const prefix = "http://localhost:3000/api";
-// production
-const prefix = "/api";
+const prefix = import.meta.env.DEV ? "http://localhost:3000/api" : "/api";
 const request = async <T>(
   url: string,
   options: RequestInit,
