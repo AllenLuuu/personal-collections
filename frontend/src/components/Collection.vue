@@ -87,8 +87,14 @@
     </NCard>
   </div>
   <!-- 导出图片弹窗 -->
-  <NModal v-model:show="showExportModal">
-    <n-card title="导出为图片" style="width: min-content">
+  <NModal v-model:show="showExportModal" :auto-focus="false">
+    <n-card
+      title="导出为图片"
+      style="width: min-content"
+      content-style="padding: 0"
+      closable
+      @close="showExportModal = false"
+    >
       <div class="pic-wrapper">
         <div ref="picture" class="pic-back">
           <div class="pic-border">
@@ -100,14 +106,26 @@
             </NIcon>
             {{ content }}
             <div class="right" style="margin-top: 1.5em">
-              {{ `${author} · ${book}` }}
+              {{ `${author}《${book}》` }}
             </div>
+          </div>
+          <div v-if="showPicFooter" class="pic-footer">
+            <div class="footer-logo">
+              <NIcon size="1rem" color="#A07C18FF"><BookOutlined /></NIcon>
+              <span>游逛者·书摘</span>
+            </div>
+            <img style="width: 2rem; height: 2rem" :src="qrcode" />
           </div>
         </div>
       </div>
-      <div class="export-footer">
-        <NButton @click="exportImage">保存</NButton>
-      </div>
+      <template #footer>
+        <div class="export-footer">
+          <div>二维码：<NSwitch v-model:value="showPicFooter" /></div>
+          <NButton ghost round type="primary" @click="exportImage">
+            保存
+          </NButton>
+        </div>
+      </template>
     </n-card>
   </NModal>
 </template>
@@ -120,11 +138,13 @@ import {
   EditNoteOutlined,
   DeleteOutlined,
   IosShareOutlined,
+  BookOutlined,
 } from "@vicons/material";
 import { NModal, useMessage } from "naive-ui";
 import StarButton from "./StarButton.vue";
 import { useMedia } from "../store/Media";
 import html2canvas from "html2canvas";
+import qrcode from "../assets/qrcode.png";
 
 const media = useMedia();
 const message = useMessage();
@@ -174,6 +194,8 @@ function copy() {
 
 const showExportModal = ref(false);
 
+const showPicFooter = ref(false);
+
 const picture = ref<HTMLDivElement | null>(null);
 const exportImage = () => {
   if (picture.value === null) return;
@@ -213,11 +235,11 @@ const exportImage = () => {
 .source {
   text-align: right;
   font-size: 1.3rem;
-  font-family: "楷体", "楷体_GB2312", serif;
+  font-family: "KaiTi_GB2312", "KaiTi", serif;
 }
 .content {
   font-size: 1.3rem;
-  font-family: "楷体", "楷体_GB2312", serif;
+  font-family: "KaiTi_GB2312", "KaiTi", serif;
   padding: 0 50px;
   white-space: pre-line;
 }
@@ -256,11 +278,26 @@ const exportImage = () => {
   right: -0.5rem;
   background-color: white;
 }
-.export-footer {
+.pic-footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 0.5rem;
+
+  font-family: "KaiTi_GB2312", "KaiTi", serif;
+}
+.footer-logo {
+  display: flex;
+  align-items: center;
+  height: 1rem;
+  gap: 0.2rem;
+}
+.export-footer {
   margin-top: 1rem;
-  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 @media screen and (max-width: 768px) {

@@ -13,10 +13,10 @@
           </template>
         </NButton>
         <h2 v-if="media.isMobile" style="overflow: hidden; white-space: nowrap">
-          游逛者 · 书摘 {{ suffix }}
+          游逛者·书摘 {{ suffix }}
         </h2>
         <h1 v-else style="overflow: hidden; white-space: nowrap">
-          游逛者 · 书摘 {{ suffix }}
+          游逛者·书摘 {{ suffix }}
         </h1>
       </div>
     </NGi>
@@ -98,6 +98,7 @@ const toggleDrawer = () => {
   padding-right: 50px;
 }
 .inline {
+  font-family: "KaiTi_GB2312", "KaiTi", serif;
   display: inline-flex;
   align-items: center;
   gap: 15px;

@@ -48,7 +48,7 @@ const emit = defineEmits<{
 .topic-bar {
   margin-top: 20px;
   margin-bottom: 30px;
-  font-family: "楷体", "楷体_GB2312", serif;
+  font-family: "KaiTi_GB2312", "KaiTi", serif;
 }
 .top-line {
   display: flex;
