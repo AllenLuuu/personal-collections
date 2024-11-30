@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { EditNoteOutlined, DeleteOutlined } from "@vicons/material";
+import { DeleteOutlined, EditNoteOutlined } from "@vicons/material";
 import { useMedia } from "../store/Media";
 
 const media = useMedia();
@@ -48,7 +48,6 @@ const emit = defineEmits<{
 .topic-bar {
   margin-top: 20px;
   margin-bottom: 30px;
-  font-family: "KaiTi_GB2312", "KaiTi", serif;
 }
 .top-line {
   display: flex;

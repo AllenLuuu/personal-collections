@@ -57,7 +57,6 @@ export const exportToDocx = (collections: CollectionType[]) => {
   });
 
   Packer.toBlob(doc).then((blob) => {
-    console.log(blob);
     saveAs(blob, "摘抄导出.docx");
   });
 };

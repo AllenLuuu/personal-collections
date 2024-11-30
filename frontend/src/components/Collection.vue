@@ -235,11 +235,9 @@ const exportImage = () => {
 .source {
   text-align: right;
   font-size: 1.3rem;
-  font-family: "KaiTi_GB2312", "KaiTi", serif;
 }
 .content {
   font-size: 1.3rem;
-  font-family: "KaiTi_GB2312", "KaiTi", serif;
   padding: 0 50px;
   white-space: pre-line;
 }
@@ -248,7 +246,6 @@ const exportImage = () => {
 }
 .pic-back {
   font-size: 0.8rem;
-  font-family: "KaiTi_GB2312", serif;
   width: 16rem;
   white-space: pre-line;
   color: black;

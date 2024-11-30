@@ -5,6 +5,7 @@
       colorMode.isDarkMode ? darkThemeOverrides : lightThemeOverrides
     "
   >
+    <n-global-style />
     <n-dialog-provider>
       <n-message-provider>
         <InterLayer />
@@ -14,37 +15,50 @@
 </template>
 
 <script setup lang="ts">
-import { useColorMode } from "./store/ColorMode";
 import { darkTheme, GlobalThemeOverrides } from "naive-ui";
+import { computed } from "vue";
 import InterLayer from "./InterLayer.vue";
+import { useColorMode } from "./store/ColorMode";
+import { useFontStore } from "./store/Font";
 
 const colorMode = useColorMode();
+const font = useFontStore();
 
-const lightThemeOverrides: GlobalThemeOverrides = {
-  common: {
-    baseColor: "#FFFFF7FF",
-    primaryColor: "#A07C18FF",
-    primaryColorHover: "#AD9136FF",
-    primaryColorPressed: "#7A600CFF",
-    primaryColorSuppl: "#AD9136FF",
-    bodyColor: "#FFFFF0FF",
-    modalColor: "#FFFFF7FF",
-    cardColor: "#FFFFF7FF",
-    popoverColor: "#FFFFF7FF",
-    tableColor: "#FFFFF7FF",
-    inputColor: "#FFFFF7FF",
-  },
-  Tag: {
-    colorBordered: "#FFFFF7FF",
-  },
-};
+const lightThemeOverrides = computed<GlobalThemeOverrides>(() => {
+  return {
+    common: {
+      baseColor: "#FFFFF7FF",
+      primaryColor: "#A07C18FF",
+      primaryColorHover: "#AD9136FF",
+      primaryColorPressed: "#7A600CFF",
+      primaryColorSuppl: "#AD9136FF",
+      bodyColor: "#FFFFF0FF",
+      modalColor: "#FFFFF7FF",
+      cardColor: "#FFFFF7FF",
+      popoverColor: "#FFFFF7FF",
+      tableColor: "#FFFFF7FF",
+      inputColor: "#FFFFF7FF",
+      fontFamily: font.cssName,
+    },
+    Tag: {
+      colorBordered: "#FFFFF7FF",
+    },
+  };
+});
 
-const darkThemeOverrides: GlobalThemeOverrides = {
-  common: {
-    primaryColor: "#E6AD4FFF",
-    primaryColorHover: "#EABD73FF",
-    primaryColorPressed: "#B48535FF",
-    primaryColorSuppl: "#EABD73FF",
-  },
-};
+const darkThemeOverrides = computed<GlobalThemeOverrides>(() => {
+  return {
+    common: {
+      baseColor: "#1A1A1A",
+      primaryColor: "#E6AD4FFF",
+      primaryColorHover: "#EABD73FF",
+      primaryColorPressed: "#B48535FF",
+      primaryColorSuppl: "#EABD73FF",
+      fontFamily: font.cssName,
+    },
+    Tag: {
+      colorBordered: "#1A1A1A",
+    },
+  };
+});
 </script>

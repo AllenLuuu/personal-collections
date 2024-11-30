@@ -24,6 +24,11 @@ declare global {
     collections: string[];
   }
 
+  interface Font {
+    name: string;
+    cssName: string;
+  }
+
   interface Window {
     $message: MessageApiInjection;
   }

@@ -1,3 +1,4 @@
+import { DropdownOption } from 'naive-ui';
 <template>
   <NGrid :cols="3">
     <NGi class="left" :span="2">
@@ -34,6 +35,17 @@
             </NIcon>
           </template>
         </NButton>
+        <NDropdown
+          trigger="hover"
+          :options="options"
+          @select="handleFontSelect"
+        >
+          <NButton text :focusable="false">
+            <NIcon size="20">
+              <FontDownloadOutlined />
+            </NIcon>
+          </NButton>
+        </NDropdown>
         <NButton text :focusable="false" @click="mode.revertColorMode">
           <template #icon>
             <NIcon size="20">
@@ -59,27 +71,64 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useColorMode } from "../store/ColorMode";
 import {
-  LightModeOutlined,
-  DarkModeOutlined,
   BookOutlined,
+  DarkModeOutlined,
+  FontDownloadOutlined,
   HomeOutlined,
+  LightModeOutlined,
   MenuRound,
 } from "@vicons/material";
-import SideMenu from "./SideMenu.vue";
+import {
+  DropdownDividerOption,
+  DropdownGroupOption,
+  DropdownOption,
+  DropdownRenderOption,
+  NDropdown,
+  NIcon,
+} from "naive-ui";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
+import { fonts } from "../const";
+import { useColorMode } from "../store/ColorMode";
+import { useFontStore } from "../store/Font";
 import { useMedia } from "../store/Media";
+import SideMenu from "./SideMenu.vue";
 
 const media = useMedia();
 const router = useRouter();
 const mode = useColorMode();
+const font = useFontStore();
 
 defineProps<{
   suffix?: string;
   showHome?: boolean;
 }>();
+
+const options = computed<
+  Array<
+    | DropdownOption
+    | DropdownGroupOption
+    | DropdownDividerOption
+    | DropdownRenderOption
+  >
+>(() =>
+  fonts.map((f) => ({
+    key: f.cssName,
+    label: f.cssName === font.cssName ? `${f.name} ✔` : f.name,
+    props: {
+      style: {
+        fontFamily: f.cssName,
+        // border: f.cssName === font.cssName ? "2px solid #ccc" : "none",
+        // borderRadius: "5px",
+      },
+    },
+  }))
+);
+
+const handleFontSelect = (key: string) => {
+  font.setFont(fonts.find((f) => f.cssName === key)!);
+};
 
 const showDrawer = ref(false);
 const toggleDrawer = () => {
