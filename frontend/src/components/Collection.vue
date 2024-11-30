@@ -106,7 +106,7 @@
             </NIcon>
             {{ content }}
             <div class="right" style="margin-top: 1.5em">
-              {{ `${author}《${book}》` }}
+              {{ `${author + (book ? `《${book}》` : "")}` }}
             </div>
           </div>
           <div v-if="showPicFooter" class="pic-footer">
@@ -131,20 +131,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
 import {
-  FormatQuoteRound,
-  ContentCopyRound,
-  EditNoteOutlined,
-  DeleteOutlined,
-  IosShareOutlined,
   BookOutlined,
+  ContentCopyRound,
+  DeleteOutlined,
+  EditNoteOutlined,
+  FormatQuoteRound,
+  IosShareOutlined,
 } from "@vicons/material";
-import { NModal, useMessage } from "naive-ui";
-import StarButton from "./StarButton.vue";
-import { useMedia } from "../store/Media";
 import html2canvas from "html2canvas";
+import { NModal, useMessage } from "naive-ui";
+import { computed, ref } from "vue";
 import qrcode from "../assets/qrcode.png";
+import { useMedia } from "../store/Media";
+import StarButton from "./StarButton.vue";
 
 const media = useMedia();
 const message = useMessage();
@@ -248,7 +248,7 @@ const exportImage = () => {
 }
 .pic-back {
   font-size: 0.8rem;
-  font-family: "LXGW WenKai", serif;
+  font-family: "KaiTi_GB2312", serif;
   width: 16rem;
   white-space: pre-line;
   color: black;
@@ -257,7 +257,7 @@ const exportImage = () => {
 }
 .pic-border {
   padding: 1rem;
-  min-height: 8rem;
+  min-height: 6rem;
   border: 0.1rem solid #ccc;
   position: relative;
 
