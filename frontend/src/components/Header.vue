@@ -1,4 +1,3 @@
-import { DropdownOption } from 'naive-ui';
 <template>
   <NGrid :cols="3">
     <NGi class="left" :span="2">
@@ -87,7 +86,7 @@ import {
   NDropdown,
   NIcon,
 } from "naive-ui";
-import { computed, ref } from "vue";
+import { computed, h, ref } from "vue";
 import { useRouter } from "vue-router";
 import { fonts } from "../const";
 import { useColorMode } from "../store/ColorMode";
@@ -115,7 +114,19 @@ const options = computed<
 >(() =>
   fonts.map((f) => ({
     key: f.cssName,
-    label: f.cssName === font.cssName ? `${f.name} ✔` : f.name,
+    label: f.name,
+    icon: () =>
+      f.cssName === font.cssName
+        ? h(
+            "p",
+            {
+              style: {
+                fontFamily: "serif",
+              },
+            },
+            "✔"
+          )
+        : null,
     props: {
       style: {
         fontFamily: f.cssName,
@@ -147,7 +158,7 @@ const toggleDrawer = () => {
   padding-right: 50px;
 }
 .inline {
-  font-family: "KaiTi_GB2312", "KaiTi", serif;
+  font-family: "KingHwa_OldSong", serif;
   display: inline-flex;
   align-items: center;
   gap: 15px;

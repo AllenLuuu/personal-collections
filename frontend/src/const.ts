@@ -16,6 +16,22 @@ export const fonts: Font[] = [
     cssName: "jiangxizhuokai",
   },
   {
+    name: "原俠正楷简",
+    cssName: "GuanKiapTsingKhai",
+  },
+  {
+    name: "原俠正楷繁",
+    cssName: "GuanKiapTsingKhai-TW",
+  },
+  {
+    name: "拼音鼎楷",
+    cssName: "ToneOZ-Pinyin-Kai-Simplified",
+  },
+  {
+    name: "汇文明朝体",
+    cssName: "Huiwen-mincho",
+  },
+  {
     name: "京華老宋体",
     cssName: "KingHwa_OldSong",
   },
@@ -42,6 +58,10 @@ export const fonts: Font[] = [
   {
     name: "鲨鱼菲特健康体",
     cssName: "YouSheShaYuFeiTeJianKangTi",
+  },
+  {
+    name: "Maple Mono",
+    cssName: "Maple Mono CN",
   },
   {
     name: "余繁新语",

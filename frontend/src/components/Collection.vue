@@ -282,7 +282,7 @@ const exportImage = () => {
 
   margin-top: 0.5rem;
 
-  font-family: "KaiTi_GB2312", "KaiTi", serif;
+  font-family: "KingHwa_OldSong", serif;
 }
 .footer-logo {
   display: flex;
