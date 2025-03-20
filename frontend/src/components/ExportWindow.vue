@@ -127,7 +127,8 @@ const exportImage = () => {
   justify-content: space-between;
   align-items: center;
 
-  margin-top: 1em;
+  margin-top: 0.5em;
+  margin-bottom: -0.3em;
 
   font-family: "KingHwa_OldSong", serif;
 }
